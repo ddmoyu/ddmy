@@ -10,6 +10,9 @@ from qfluentwidgets import FluentIcon
 from .home.home import HomeInterface
 from .novel.novel import NovelInterface
 from .photo.photo import PhotoInterface
+from .video.video import VideoInterface
+from .live.live import LiveInterface
+from .download.download import DownloadInterface
 from .settings.settings import SettingsInterface
 
 from src.layout.layout import LayoutInterface
@@ -26,6 +29,9 @@ class MainWindow(FluentWindow):
         self.homeInterface = HomeInterface(self)
         self.novelInterface = NovelInterface(self)
         self.photoInterface = PhotoInterface(self)
+        self.videoInterface = VideoInterface(self)
+        self.liveInterface = LiveInterface(self)
+        self.downloadInterface = DownloadInterface(self)
         self.settingsInterface = SettingsInterface(self)
 
         self.connect_signal_to_slot()
@@ -56,8 +62,11 @@ class MainWindow(FluentWindow):
 
     def init_navigation(self):
         self.addSubInterface(self.homeInterface, FluentIcon.HOME, self.tr('Home'))
-        self.addSubInterface(self.novelInterface, FluentIcon.BOOK_SHELF, 'Novel')
+        self.addSubInterface(self.novelInterface, FluentIcon.BOOK_SHELF, 'Novel', position=NavigationItemPosition.SCROLL)
         self.addSubInterface(self.photoInterface, FluentIcon.PHOTO, 'Photo', position=NavigationItemPosition.SCROLL)
+        self.addSubInterface(self.videoInterface, FluentIcon.VIDEO, 'Video', position=NavigationItemPosition.SCROLL)
+        self.addSubInterface(self.liveInterface, FluentIcon.PLAY, 'Live', position=NavigationItemPosition.SCROLL)
+        self.addSubInterface(self.downloadInterface, FluentIcon.DOWNLOAD, 'Download', position=NavigationItemPosition.SCROLL)
         self.addSubInterface(self.settingsInterface, FluentIcon.SETTING, 'Settings', position=NavigationItemPosition.BOTTOM)
 
     def closeEvent(self, e):
