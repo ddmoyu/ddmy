@@ -7,13 +7,13 @@ from PySide6.QtCore import QSize
 from qfluentwidgets import (FluentWindow, SystemThemeListener, NavigationItemPosition, SplashScreen)
 from qfluentwidgets import FluentIcon
 
-from .home.home import HomeInterface
-from .novel.novel import NovelInterface
-from .photo.photo import PhotoInterface
-from .video.video import VideoInterface
-from .live.live import LiveInterface
-from .download.download import DownloadInterface
-from .settings.settings import SettingsInterface
+from src.views.home.home import HomeInterface
+from src.views.novel.novel import NovelInterface
+from src.views.photo.photo import PhotoInterface
+from src.views.video.video import VideoInterface
+from src.views.live.live import LiveInterface
+from src.views.download.download import DownloadInterface
+from src.views.settings.settings import SettingsInterface
 
 from src.layout.layout import LayoutInterface
 from src.common.signal_bus import signalBus
@@ -61,7 +61,7 @@ class MainWindow(FluentWindow):
         signalBus.switchToSampleCard.connect(self.switch_to_sample)
 
     def init_navigation(self):
-        self.addSubInterface(self.homeInterface, FluentIcon.HOME, self.tr('Home'))
+        self.addSubInterface(self.homeInterface, FluentIcon.HOME, self.tr('Home'), position=NavigationItemPosition.TOP)
         self.addSubInterface(self.novelInterface, FluentIcon.BOOK_SHELF, 'Novel', position=NavigationItemPosition.SCROLL)
         self.addSubInterface(self.photoInterface, FluentIcon.PHOTO, 'Photo', position=NavigationItemPosition.SCROLL)
         self.addSubInterface(self.videoInterface, FluentIcon.VIDEO, 'Video', position=NavigationItemPosition.SCROLL)
