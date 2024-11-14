@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'videouIMeuI.ui'
+## Form generated from reading UI file 'video.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.8.0
 ##
