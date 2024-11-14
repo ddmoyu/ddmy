@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'managerRXxcqL.ui'
+## Form generated from reading UI file 'manager.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.8.0
 ##
@@ -45,6 +45,6 @@ class Ui_NovelManager(object):
 
     def retranslateUi(self, NovelManager):
         NovelManager.setWindowTitle(QCoreApplication.translate("NovelManager", u"Form", None))
-        self.pushButton.setText(QCoreApplication.translate("NovelManager", u"detail", None))
+        self.pushButton.setText(QCoreApplication.translate("NovelManager", u"manager ", None))
     # retranslateUi
 

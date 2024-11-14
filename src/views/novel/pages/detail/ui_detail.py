@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'detailRKWeZo.ui'
+## Form generated from reading UI file 'detail.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.8.0
 ##
@@ -45,6 +45,6 @@ class Ui_NovelDetail(object):
 
     def retranslateUi(self, NovelDetail):
         NovelDetail.setWindowTitle(QCoreApplication.translate("NovelDetail", u"Form", None))
-        self.pushButton.setText(QCoreApplication.translate("NovelDetail", u"detail", None))
+        self.pushButton.setText(QCoreApplication.translate("NovelDetail", u" detail", None))
     # retranslateUi
 

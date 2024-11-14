@@ -20,6 +20,3 @@ class NovelSearch(Ui_NovelSearch, QWidget):
     def searchChangedHandler(self):
         if len(self.le_search.text()) == 0:
             self.container.hide()
-
-    def showEvent(self, event):
-        self.resize(self.parent.size())

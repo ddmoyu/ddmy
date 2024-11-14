@@ -6,9 +6,3 @@ class NovelBookshelf(Ui_NovelBookshelf, QWidget):
         super().__init__(parent = parent)
         self.parent = parent
         self.setupUi(self)
-
-    def showEvent(self, event):
-        print("show bookshelf")
-        print(self.parent.size())
-        self.resize(self.parent.size())
-        print(self.size())

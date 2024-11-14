@@ -6,6 +6,3 @@ class NovelList(Ui_NovelList, QWidget):
         super().__init__(parent = parent)
         self.parent = parent
         self.setupUi(self)
-
-    def showEvent(self, event):
-        self.resize(self.parent.size())

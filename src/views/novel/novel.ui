@@ -35,25 +35,49 @@
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="list">
-      <layout class="QGridLayout" name="gridLayout_3"/>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="list_layout"/>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="manager">
-      <layout class="QGridLayout" name="gridLayout_4"/>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="manager_layout"/>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="search">
-      <layout class="QGridLayout" name="gridLayout_2"/>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="search_layout"/>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="detail">
-      <layout class="QGridLayout" name="gridLayout_5"/>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="detail_layout"/>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="bookshelf">
-      <layout class="QGridLayout" name="gridLayout_7"/>
+      <layout class="QGridLayout" name="gridLayout_7">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="bookshelf_layout"/>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="content">
-      <layout class="QGridLayout" name="gridLayout_6"/>
+      <layout class="QGridLayout" name="gridLayout_6">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="content_layout"/>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
