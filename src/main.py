@@ -28,4 +28,3 @@ if __name__ == '__main__':
 
     event_loop.run_until_complete(app_close_event.wait())
     event_loop.close()
-    # app.exec()

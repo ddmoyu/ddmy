@@ -9,10 +9,7 @@ class NovelSearch(Ui_NovelSearch, QWidget):
         self.container.hide()
         self.le_search.returnPressed.connect(self.searchEventHandler)
         self.le_search.textChanged.connect(self.searchChangedHandler)
-
-        print(self.parent.size())
-        self.resize(self.parent.size())
-        print(self.size())
+        # self.resize(self.parent.size())
 
     def searchEventHandler(self):
         self.container.show()
