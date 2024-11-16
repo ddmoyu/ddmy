@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>746</width>
-    <height>543</height>
+    <height>578</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -71,10 +71,7 @@
         </layout>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="TextBrowser" name="textBrowser"/>
-      </item>
-      <item row="2" column="0">
+      <item row="3" column="0">
        <widget class="QFrame" name="frame_2">
         <property name="frameShape">
          <enum>QFrame::Shape::StyledPanel</enum>
@@ -109,6 +106,24 @@
             <string>PushButton</string>
            </property>
           </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="TextBrowser" name="textBrowser"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QWidget" name="webview" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>400</height>
+         </size>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="0" column="0">
+          <layout class="QVBoxLayout" name="wv_layout"/>
          </item>
         </layout>
        </widget>

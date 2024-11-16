@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'content.ui'
+## Form generated from reading UI file 'contentiKsnnC.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.8.0
 ##
@@ -16,7 +16,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QPushButton,
-    QSizePolicy, QSpacerItem, QWidget)
+    QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 
 from qfluentwidgets import TextBrowser
 
@@ -24,7 +24,7 @@ class Ui_NovelContent(object):
     def setupUi(self, NovelContent):
         if not NovelContent.objectName():
             NovelContent.setObjectName(u"NovelContent")
-        NovelContent.resize(746, 543)
+        NovelContent.resize(746, 578)
         self.gridLayout = QGridLayout(NovelContent)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName(u"gridLayout")
@@ -56,11 +56,6 @@ class Ui_NovelContent(object):
 
         self.gridLayout_2.addWidget(self.frame, 0, 0, 1, 1)
 
-        self.textBrowser = TextBrowser(self.widget)
-        self.textBrowser.setObjectName(u"textBrowser")
-
-        self.gridLayout_2.addWidget(self.textBrowser, 1, 0, 1, 1)
-
         self.frame_2 = QFrame(self.widget)
         self.frame_2.setObjectName(u"frame_2")
         self.frame_2.setFrameShape(QFrame.Shape.StyledPanel)
@@ -82,7 +77,25 @@ class Ui_NovelContent(object):
         self.gridLayout_3.addWidget(self.pushButton_2, 0, 0, 1, 1)
 
 
-        self.gridLayout_2.addWidget(self.frame_2, 2, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.frame_2, 3, 0, 1, 1)
+
+        self.textBrowser = TextBrowser(self.widget)
+        self.textBrowser.setObjectName(u"textBrowser")
+
+        self.gridLayout_2.addWidget(self.textBrowser, 1, 0, 1, 1)
+
+        self.webview = QWidget(self.widget)
+        self.webview.setObjectName(u"webview")
+        self.webview.setMinimumSize(QSize(0, 400))
+        self.gridLayout_5 = QGridLayout(self.webview)
+        self.gridLayout_5.setObjectName(u"gridLayout_5")
+        self.wv_layout = QVBoxLayout()
+        self.wv_layout.setObjectName(u"wv_layout")
+
+        self.gridLayout_5.addLayout(self.wv_layout, 0, 0, 1, 1)
+
+
+        self.gridLayout_2.addWidget(self.webview, 2, 0, 1, 1)
 
 
         self.gridLayout.addWidget(self.widget, 0, 0, 1, 1)
