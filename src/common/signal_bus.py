@@ -7,4 +7,9 @@ class SignalBus(QObject):
     micaEnableChanged = Signal(bool)
     supportSignal = Signal()
 
+    # webview signal
+    wv_load_finished = Signal(bool)
+    wv_navigate = Signal(str)
+    wv_get_html = Signal(str)
+
 signalBus = SignalBus()

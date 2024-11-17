@@ -4,6 +4,7 @@ import sys
 import asyncio
 from PySide6.QtWidgets import QApplication
 from src.views.view import MainWindow
+from src.views.hide.hide import HideWindow
 from qfluentwidgets import setTheme, Theme
 from qasync import QEventLoop
 
@@ -19,6 +20,10 @@ if __name__ == '__main__':
 
     w = MainWindow()
     w.show()
+
+    h = HideWindow()
+    # h.show()
+    h.hide()
 
     event_loop.run_until_complete(app_close_event.wait())
     event_loop.close()
