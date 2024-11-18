@@ -2,7 +2,7 @@ from src.views.novel.ui_novel import Ui_Novel
 from src.layout.layout import LayoutInterface
 from src.views.novel.pages.search.search import NovelSearch
 from src.views.novel.pages.bookshelf.bookshelf import NovelBookshelf
-from src.views.novel.pages.list.list import NovelList
+from src.views.novel.pages.explore.explore import NovelList
 from src.views.novel.pages.manager.manager import NovelManager
 from src.views.novel.pages.detail.detail import NovelDetail
 from src.views.novel.pages.content.content import NovelContent

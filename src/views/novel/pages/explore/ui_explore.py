@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'list.ui'
+## Form generated from reading UI file 'explore.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.8.0
 ##
@@ -20,21 +20,21 @@ from PySide6.QtWidgets import (QApplication, QGridLayout, QLabel, QListWidgetIte
 
 from qfluentwidgets import (ListWidget, SearchLineEdit, SingleDirectionScrollArea, ToolButton)
 
-class Ui_NovelList(object):
-    def setupUi(self, NovelList):
-        if not NovelList.objectName():
-            NovelList.setObjectName(u"NovelList")
-        NovelList.resize(1036, 766)
-        self.gridLayout = QGridLayout(NovelList)
+class Ui_NovelExplore(object):
+    def setupUi(self, NovelExplore):
+        if not NovelExplore.objectName():
+            NovelExplore.setObjectName(u"NovelExplore")
+        NovelExplore.resize(1036, 766)
+        self.gridLayout = QGridLayout(NovelExplore)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.category = ListWidget(NovelList)
+        self.category = ListWidget(NovelExplore)
         self.category.setObjectName(u"category")
         self.category.setMinimumSize(QSize(140, 0))
         self.category.setMaximumSize(QSize(150, 16777215))
 
         self.gridLayout.addWidget(self.category, 1, 1, 3, 1)
 
-        self.widget = QWidget(NovelList)
+        self.widget = QWidget(NovelExplore)
         self.widget.setObjectName(u"widget")
         self.widget.setMinimumSize(QSize(200, 0))
         self.widget.setMaximumSize(QSize(220, 16777215))
@@ -56,7 +56,7 @@ class Ui_NovelList(object):
 
         self.gridLayout.addWidget(self.widget, 1, 0, 3, 1)
 
-        self.book_footer = QWidget(NovelList)
+        self.book_footer = QWidget(NovelExplore)
         self.book_footer.setObjectName(u"book_footer")
         self.book_footer.setMaximumSize(QSize(16777215, 50))
         self.gridLayout_3 = QGridLayout(self.book_footer)
@@ -84,7 +84,7 @@ class Ui_NovelList(object):
 
         self.gridLayout.addWidget(self.book_footer, 3, 2, 1, 1)
 
-        self.book_list = SingleDirectionScrollArea(NovelList)
+        self.book_list = SingleDirectionScrollArea(NovelExplore)
         self.book_list.setObjectName(u"book_list")
         self.book_list.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
@@ -95,15 +95,15 @@ class Ui_NovelList(object):
         self.gridLayout.addWidget(self.book_list, 1, 2, 2, 1)
 
 
-        self.retranslateUi(NovelList)
+        self.retranslateUi(NovelExplore)
 
-        QMetaObject.connectSlotsByName(NovelList)
+        QMetaObject.connectSlotsByName(NovelExplore)
     # setupUi
 
-    def retranslateUi(self, NovelList):
-        NovelList.setWindowTitle(QCoreApplication.translate("NovelList", u"Form", None))
-        self.btn_next.setText(QCoreApplication.translate("NovelList", u"->", None))
-        self.btn_prev.setText(QCoreApplication.translate("NovelList", u"<-", None))
-        self.lb_total.setText(QCoreApplication.translate("NovelList", u"\u7b2c\u4e00\u9875", None))
+    def retranslateUi(self, NovelExplore):
+        NovelExplore.setWindowTitle(QCoreApplication.translate("NovelExplore", u"Form", None))
+        self.btn_next.setText(QCoreApplication.translate("NovelExplore", u"->", None))
+        self.btn_prev.setText(QCoreApplication.translate("NovelExplore", u"<-", None))
+        self.lb_total.setText(QCoreApplication.translate("NovelExplore", u"\u7b2c\u4e00\u9875", None))
     # retranslateUi
 

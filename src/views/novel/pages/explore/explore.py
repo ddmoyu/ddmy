@@ -1,12 +1,13 @@
-from .ui_list import Ui_NovelList
+from src.common.tools import load_json
+from .ui_explore import Ui_NovelExplore
 from PySide6.QtWidgets import QWidget, QListWidgetItem
 from PySide6.QtCore import Qt
-from .tools import (fetch_json_async, parser_exploreUrl)
-from qasync import asyncSlot
+from .tools import parser_exploreUrl
 
-class NovelList(Ui_NovelList, QWidget):
+
+class NovelList(Ui_NovelExplore, QWidget):
     def __init__(self, parent=None):
-        super().__init__(parent = parent)
+        super().__init__(parent=parent)
         self.parent = parent
         self.setupUi(self)
         self.json_data = []
@@ -22,28 +23,24 @@ class NovelList(Ui_NovelList, QWidget):
         self.list.itemClicked.connect(self.on_list_item_clicked)
         self.category.itemClicked.connect(self.on_category_item_clicked)
 
-    @asyncSlot()
-    async def init_list(self) -> None:
-        content = await fetch_json_async("https://www.yckceo.com/yuedu/shuyuans/json/id/663.json")
-        if content is None:
+    def init_list(self) -> None:
+        sources = load_json("novel_sources.json")
+        if not sources:
             return
-        self.json_data = []
-        for item in content:
-            book_name = item["bookSourceName"]
-            book_type = item["bookSourceType"]
-            if book_type == 0:
-                self.list.addItem(book_name)
-                self.json_data.append(item)
+        self.list.clear()
+        self.json_data = sources
+        for source in sources:
+            self.list.addItem(source.get("bookSourceName"))
 
     def on_list_item_clicked(self, item) -> None:
         self.category.clear()
         explore_url = None
-        bookSourceUrl = None
+        book_source_url = None
         for i in range(len(self.json_data)):
             if self.json_data[i]["bookSourceName"] == item.text():
                 source = self.json_data[i]
-                bookSourceUrl = source["bookSourceUrl"]
-                if 'exploreUrl' in source:
+                book_source_url = source["bookSourceUrl"]
+                if "exploreUrl" in source:
                     explore_url = self.json_data[i]["exploreUrl"]
                 if explore_url is None:
                     return
@@ -56,14 +53,14 @@ class NovelList(Ui_NovelList, QWidget):
         for category in category_list:
             name = category["name"]
             category_item = QListWidgetItem(name)
-            category_item.setData(Qt.UserRole, category["url"])
-            category_item.setData(Qt.UserRole + 1, bookSourceUrl)
+            category_item.setData(Qt.ItemDataRole.UserRole, category["url"])
+            category_item.setData(Qt.ItemDataRole.UserRole + 1, book_source_url)
             self.category.addItem(category_item)
         self.category.scrollToTop()
 
     def on_category_item_clicked(self, item) -> None:
         print(item.text())
-        url = item.data(Qt.UserRole)
-        bookSourceUrl = item.data(Qt.UserRole + 1)
+        url = item.data(Qt.ItemDataRole.UserRole)
+        book_source_url = item.data(Qt.ItemDataRole.UserRole + 1)
         print(url)
-        print(bookSourceUrl)
+        print(book_source_url)

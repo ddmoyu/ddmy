@@ -16,7 +16,7 @@ class GroupBox(QWidget):
         main_layout.addWidget(group_label)
 
         books = QWidget()
-        book_layout = FlowLayout(books, True)
+        book_layout = FlowLayout(books)
         book_layout.setContentsMargins(0, 0, 0, 0)
         book_layout.setVerticalSpacing(20)
         book_layout.setHorizontalSpacing(20)
