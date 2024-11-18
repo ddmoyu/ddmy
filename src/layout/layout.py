@@ -1,6 +1,7 @@
-from qfluentwidgets import (ScrollArea)
-from PySide6.QtWidgets import (QVBoxLayout, QWidget)
-from PySide6.QtCore import (Qt)
+from qfluentwidgets import ScrollArea
+from PySide6.QtWidgets import QVBoxLayout, QWidget
+from PySide6.QtCore import Qt
+
 
 class LayoutInterface(ScrollArea):
     def __init__(self, parent=None):
@@ -8,13 +9,13 @@ class LayoutInterface(ScrollArea):
         self.view = QWidget(self)
         self.vBoxLayout = QVBoxLayout(self.view)
 
-        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.setViewportMargins(0, 0, 0, 0)
         self.setWidget(self.view)
         self.setWidgetResizable(True)
 
         self.vBoxLayout.setSpacing(30)
-        self.vBoxLayout.setAlignment(Qt.AlignTop)
+        self.vBoxLayout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.vBoxLayout.setContentsMargins(36, 20, 36, 36)
 
-        self.view.setObjectName('view')
+        self.view.setObjectName("view")

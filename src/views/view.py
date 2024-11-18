@@ -4,7 +4,12 @@ from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import QSize
 
-from qfluentwidgets import (FluentWindow, SystemThemeListener, NavigationItemPosition, SplashScreen)
+from qfluentwidgets import (
+    FluentWindow,
+    SystemThemeListener,
+    NavigationItemPosition,
+    SplashScreen,
+)
 from qfluentwidgets import FluentIcon
 
 from src.views.home.home import HomeInterface
@@ -17,7 +22,7 @@ from src.views.settings.settings import SettingsInterface
 
 from src.layout.layout import LayoutInterface
 from src.common.signal_bus import signalBus
-import src.common.resource
+
 
 class MainWindow(FluentWindow):
     def __init__(self):
@@ -43,9 +48,9 @@ class MainWindow(FluentWindow):
         self.themeListener.start()
 
     def init_window(self):
-        self.resize(1024, 720)
+        self.resize(1124, 720)
         self.setWindowIcon(QIcon(":/images/logo.png"))
-        self.setWindowTitle('home')
+        self.setWindowTitle("home")
 
         self.splashScreen = SplashScreen(self.windowIcon(), self)
         self.splashScreen.setIconSize(QSize(106, 106))
@@ -61,13 +66,48 @@ class MainWindow(FluentWindow):
         signalBus.switchToSampleCard.connect(self.switch_to_sample)
 
     def init_navigation(self):
-        self.addSubInterface(self.homeInterface, FluentIcon.HOME, self.tr('Home'), position=NavigationItemPosition.TOP)
-        self.addSubInterface(self.novelInterface, FluentIcon.BOOK_SHELF, 'Novel', position=NavigationItemPosition.SCROLL)
-        self.addSubInterface(self.photoInterface, FluentIcon.PHOTO, 'Photo', position=NavigationItemPosition.SCROLL)
-        self.addSubInterface(self.videoInterface, FluentIcon.VIDEO, 'Video', position=NavigationItemPosition.SCROLL)
-        self.addSubInterface(self.liveInterface, FluentIcon.PLAY, 'Live', position=NavigationItemPosition.SCROLL)
-        self.addSubInterface(self.downloadInterface, FluentIcon.DOWNLOAD, 'Download', position=NavigationItemPosition.SCROLL)
-        self.addSubInterface(self.settingsInterface, FluentIcon.SETTING, 'Settings', position=NavigationItemPosition.BOTTOM)
+        self.addSubInterface(
+            self.homeInterface,
+            FluentIcon.HOME,
+            self.tr("Home"),
+            position=NavigationItemPosition.TOP,
+        )
+        self.addSubInterface(
+            self.novelInterface,
+            FluentIcon.BOOK_SHELF,
+            "Novel",
+            position=NavigationItemPosition.SCROLL,
+        )
+        self.addSubInterface(
+            self.photoInterface,
+            FluentIcon.PHOTO,
+            "Photo",
+            position=NavigationItemPosition.SCROLL,
+        )
+        self.addSubInterface(
+            self.videoInterface,
+            FluentIcon.VIDEO,
+            "Video",
+            position=NavigationItemPosition.SCROLL,
+        )
+        self.addSubInterface(
+            self.liveInterface,
+            FluentIcon.PLAY,
+            "Live",
+            position=NavigationItemPosition.SCROLL,
+        )
+        self.addSubInterface(
+            self.downloadInterface,
+            FluentIcon.DOWNLOAD,
+            "Download",
+            position=NavigationItemPosition.SCROLL,
+        )
+        self.addSubInterface(
+            self.settingsInterface,
+            FluentIcon.SETTING,
+            "Settings",
+            position=NavigationItemPosition.BOTTOM,
+        )
 
     def closeEvent(self, e):
         self.themeListener.terminate()
@@ -76,7 +116,7 @@ class MainWindow(FluentWindow):
 
     def resizeEvent(self, e):
         super().resizeEvent(e)
-        if hasattr(self, 'splashScreen'):
+        if hasattr(self, "splashScreen"):
             self.splashScreen.resize(self.size())
 
     def switch_to_sample(self, route_key):
