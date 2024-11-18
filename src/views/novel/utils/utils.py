@@ -5,10 +5,12 @@ from parsel import Selector
 from src.common.tools import save_json, load_json
 from src.common.request import fetch_json_async
 
+
 def clean_value(value):
     if isinstance(value, str):
-        return re.sub(r'#.*', '', value).strip()
+        return re.sub(r"#.*", "", value).strip()
     return value
+
 
 def clean_hash_value(data):
     if isinstance(data, dict):
@@ -18,26 +20,29 @@ def clean_hash_value(data):
     else:
         return clean_value(data)
 
+
 def parse_content(content, rule):
-    if '@' not in rule:
-        raise Exception('rule must be a valid xpath or css selector')
-    selector_query, query_type = rule.split('@')
+    if "@" not in rule:
+        raise Exception("rule must be a valid xpath or css selector")
+    selector_query, query_type = rule.split("@")
     selector = Selector(text=content)
-    if query_type == 'html':
+    if query_type == "html":
         result = selector.css(selector_query).get()
-    elif query_type == 'text':
-        result = selector.css(selector_query).xpath('string(.)').get()
+    elif query_type == "text":
+        result = selector.css(selector_query).xpath("string(.)").get()
     else:
-        raise Exception('unknown query type')
+        raise Exception("unknown query type")
     return result
+
 
 def filter_book_source_type(json_data, _type=0):
     if isinstance(json_data, str):
         data = json.loads(json_data)
     else:
         data = json_data
-    filtered_data = [item for item in data if item.get('bookSourceType') == _type]
+    filtered_data = [item for item in data if item.get("bookSourceType") == _type]
     return filtered_data
+
 
 def filter_rule_content(json_data):
     if isinstance(json_data, str):
@@ -45,16 +50,19 @@ def filter_rule_content(json_data):
     else:
         data = json_data
     filtered_data = [
-        item for item in data
-        if 'ruleContent' in item
-           and item['ruleContent']
-           and 'content' in item['ruleContent']
-           and item['ruleContent']['content']
+        item
+        for item in data
+        if "ruleContent" in item
+        and item["ruleContent"]
+        and "content" in item["ruleContent"]
+        and item["ruleContent"]["content"]
     ]
     return filtered_data
 
+
 def get_book_sources():
     return load_json("novel_sources.json")
+
 
 async def fetch_book_sources(url, save=False):
     res = await fetch_json_async(url)
@@ -81,5 +89,3 @@ async def fetch_book_sources(url, save=False):
     if save:
         save_json(book_sources, "novel_sources.json")
     return book_sources
-
-
