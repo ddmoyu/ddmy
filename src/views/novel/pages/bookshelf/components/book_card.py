@@ -26,7 +26,7 @@ class BookCard(ElevatedCardWidget):
         main_layout.setSpacing(10)
 
         image_label = ImageLabel(self)
-        pixmap = QPixmap("src/resource/images/cover.jpg")
+        pixmap = QPixmap("src/resource/images/nocover.jpg")
         scaled_pixmap = pixmap.scaled(
             QSize(180, 240),
             Qt.AspectRatioMode.KeepAspectRatio,

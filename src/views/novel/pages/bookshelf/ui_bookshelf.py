@@ -33,35 +33,41 @@ class Ui_NovelBookshelf(object):
         self.wgt_top_tools.setObjectName(u"wgt_top_tools")
         self.gridLayout_3 = QGridLayout(self.wgt_top_tools)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.horizontalSpacer = QSpacerItem(630, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.gridLayout_3.setContentsMargins(0, -1, 0, -1)
+        self.btn_add = TransparentToolButton(self.wgt_top_tools)
+        self.btn_add.setObjectName(u"btn_add")
 
-        self.gridLayout_3.addItem(self.horizontalSpacer, 0, 3, 1, 1)
+        self.gridLayout_3.addWidget(self.btn_add, 0, 5, 1, 1)
+
+        self.le_search = SearchLineEdit(self.wgt_top_tools)
+        self.le_search.setObjectName(u"le_search")
+        self.le_search.setMaximumSize(QSize(300, 16777215))
+
+        self.gridLayout_3.addWidget(self.le_search, 0, 3, 1, 1)
 
         self.btn_views = TransparentToolButton(self.wgt_top_tools)
         self.btn_views.setObjectName(u"btn_views")
 
         self.gridLayout_3.addWidget(self.btn_views, 0, 0, 1, 1)
 
+        self.btn_group_manager = PushButton(self.wgt_top_tools)
+        self.btn_group_manager.setObjectName(u"btn_group_manager")
+
+        self.gridLayout_3.addWidget(self.btn_group_manager, 0, 6, 1, 1)
+
+        self.horizontalSpacer = QSpacerItem(630, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_3.addItem(self.horizontalSpacer, 0, 4, 1, 1)
+
         self.btn_filters = TransparentToolButton(self.wgt_top_tools)
         self.btn_filters.setObjectName(u"btn_filters")
 
         self.gridLayout_3.addWidget(self.btn_filters, 0, 1, 1, 1)
 
-        self.btn_group_manager = PushButton(self.wgt_top_tools)
-        self.btn_group_manager.setObjectName(u"btn_group_manager")
+        self.btn_search = TransparentToolButton(self.wgt_top_tools)
+        self.btn_search.setObjectName(u"btn_search")
 
-        self.gridLayout_3.addWidget(self.btn_group_manager, 0, 5, 1, 1)
-
-        self.btn_add = TransparentToolButton(self.wgt_top_tools)
-        self.btn_add.setObjectName(u"btn_add")
-
-        self.gridLayout_3.addWidget(self.btn_add, 0, 4, 1, 1)
-
-        self.le_search = SearchLineEdit(self.wgt_top_tools)
-        self.le_search.setObjectName(u"le_search")
-        self.le_search.setMaximumSize(QSize(300, 16777215))
-
-        self.gridLayout_3.addWidget(self.le_search, 0, 2, 1, 1)
+        self.gridLayout_3.addWidget(self.btn_search, 0, 2, 1, 1)
 
 
         self.gridLayout.addWidget(self.wgt_top_tools, 0, 0, 1, 1)
@@ -81,10 +87,6 @@ class Ui_NovelBookshelf(object):
 
         self.gridLayout_2.addLayout(self.verticalLayout, 0, 0, 1, 1)
 
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.gridLayout_2.addItem(self.verticalSpacer, 1, 0, 1, 1)
-
         self.scrollarea.setWidget(self.book_scrollarea)
 
         self.gridLayout.addWidget(self.scrollarea, 1, 0, 1, 1)
@@ -97,9 +99,10 @@ class Ui_NovelBookshelf(object):
 
     def retranslateUi(self, NovelBookshelf):
         NovelBookshelf.setWindowTitle(QCoreApplication.translate("NovelBookshelf", u"Form", None))
-        self.btn_views.setText("")
-        self.btn_filters.setText("")
-        self.btn_group_manager.setText(QCoreApplication.translate("NovelBookshelf", u"\u5206\u7ec4\u7ba1\u7406", None))
         self.btn_add.setText("")
+        self.btn_views.setText("")
+        self.btn_group_manager.setText(QCoreApplication.translate("NovelBookshelf", u"\u5206\u7ec4\u7ba1\u7406", None))
+        self.btn_filters.setText("")
+        self.btn_search.setText("")
     # retranslateUi
 

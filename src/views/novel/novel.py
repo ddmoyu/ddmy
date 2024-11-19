@@ -58,11 +58,6 @@ class NovelInterface(LayoutInterface):
             onClick=lambda: self.show_page(NovelPage.MANAGER),
         )
         pivot.addItem(
-            routeKey="detail",
-            text="详情",
-            onClick=lambda: self.show_page(NovelPage.DETAIL),
-        )
-        pivot.addItem(
             routeKey="content",
             text="阅读",
             onClick=lambda: self.show_page(NovelPage.CONTENT),

@@ -27,13 +27,47 @@
     <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
+    <number>9</number>
    </property>
    <property name="spacing">
     <number>0</number>
    </property>
-   <item row="0" column="2">
-    <spacer name="horizontalSpacer">
+   <item row="1" column="0" colspan="4">
+    <widget class="SmoothScrollArea" name="container">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="smoothScrollArea">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>909</width>
+        <height>624</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="4">
+    <layout class="QVBoxLayout" name="progressbar_layout"/>
+   </item>
+   <item row="0" column="0">
+    <spacer name="horizontalSpacer_2">
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
      </property>
@@ -55,8 +89,8 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
-    <spacer name="horizontalSpacer_2">
+   <item row="0" column="3">
+    <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
      </property>
@@ -68,21 +102,11 @@
      </property>
     </spacer>
    </item>
-   <item row="1" column="0" colspan="3">
-    <widget class="QScrollArea" name="container">
-     <property name="widgetResizable">
-      <bool>true</bool>
+   <item row="0" column="2">
+    <widget class="ToolButton" name="btn_stop">
+     <property name="text">
+      <string/>
      </property>
-     <widget class="SmoothScrollArea" name="search_area_2">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>909</width>
-        <height>637</height>
-       </rect>
-      </property>
-     </widget>
     </widget>
    </item>
   </layout>
@@ -95,9 +119,14 @@
   </customwidget>
   <customwidget>
    <class>SmoothScrollArea</class>
-   <extends>QWidget</extends>
+   <extends>QScrollArea</extends>
    <header>qfluentwidgets</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ToolButton</class>
+   <extends>QToolButton</extends>
+   <header>qfluentwidgets</header>
   </customwidget>
  </customwidgets>
  <resources/>

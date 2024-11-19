@@ -40,7 +40,7 @@ class BookCard(CardWidget):
 
         self.setFixedHeight(144)
 
-        pixmap = QPixmap("src/resource/images/cover.jpg")
+        pixmap = QPixmap("src/resource/images/nocover.jpg")
         scaled_pixmap = pixmap.scaled(
             QSize(90, 120),
             Qt.AspectRatioMode.KeepAspectRatio,
