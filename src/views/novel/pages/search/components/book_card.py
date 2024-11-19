@@ -1,10 +1,9 @@
 from PySide6.QtCore import Qt, Signal, QSize
-from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout
-from PySide6.QtGui import QPixmap, QFontMetrics
+from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QTextEdit
+from PySide6.QtGui import QPixmap, QFontMetrics, QTextOption
 from qfluentwidgets import (
     ImageLabel,
     CardWidget,
-    BodyLabel,
     CaptionLabel,
     StrongBodyLabel,
     FluentIcon,
@@ -24,19 +23,31 @@ class BookCard(CardWidget):
         cover_label = ImageLabel()
         title_label = StrongBodyLabel("title", self)
         author_label = CaptionLabel("author", self)
-        intor_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius nonummy ac, nonummy ut, tortor. Pellentesque ornare sem lacus, ut luctus elit fermentum non, dignissim."
-        self.intro_label = BodyLabel()
-        self.intro_label.setWordWrap(True)
-        self.intro_label.setTextInteractionFlags(
-            Qt.TextInteractionFlag.NoTextInteraction
-        )
-        self.set_intro_text(intor_text)
+        intro_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius nonummy ac, nonummy ut, tortor. Pellentesque ornare sem lacus, ut luctus elit fermentum non, dignissim."
+
+        # self.intro_label = QTextEdit()
+        # self.intro_label.setReadOnly(True)
+        # self.intro_label.setLineWrapMode(QTextEdit.LineWrapMode.WidgetWidth)
+        # self.intro_label.setWordWrapMode(
+        #     QTextOption.WrapMode.WrapAtWordBoundaryOrAnywhere
+        # )
+
+        # self.intro_label.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        # self.intro_label.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        # self.intro_label.setText(intro_text)
+        # self.intro_label = BodyLabel()
+        # self.intro_label.setWordWrap(True)
+        # self.intro_label.setText(intro_text)
+        # self.intro_label.setTextInteractionFlags(
+        #     Qt.TextInteractionFlag.NoTextInteraction
+        # )
+        # self.set_intro_text(intro_text)
 
         read_btn = PushButton("阅读", self)
         more_btn = TransparentToolButton(FluentIcon.MORE, self)
 
-        hBoxLayout = QHBoxLayout(self)
-        vBoxLayout = QVBoxLayout()
+        h_box_layout = QHBoxLayout(self)
+        v_box_layout = QVBoxLayout()
 
         self.setFixedHeight(144)
 
@@ -48,21 +59,23 @@ class BookCard(CardWidget):
         )
         cover_label.setPixmap(scaled_pixmap)
 
-        hBoxLayout.setContentsMargins(16, 12, 10, 12)
-        hBoxLayout.setSpacing(15)
-        hBoxLayout.addWidget(cover_label)
+        h_box_layout.setContentsMargins(16, 12, 10, 12)
+        h_box_layout.setSpacing(15)
+        h_box_layout.addWidget(cover_label)
 
-        vBoxLayout.setContentsMargins(0, 0, 0, 0)
-        vBoxLayout.setSpacing(6)
-        vBoxLayout.addWidget(title_label)
-        vBoxLayout.addWidget(author_label)
-        vBoxLayout.addWidget(self.intro_label)
-        vBoxLayout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
-        hBoxLayout.addLayout(vBoxLayout)
+        v_box_layout.setContentsMargins(0, 0, 0, 0)
+        v_box_layout.setSpacing(6)
+        v_box_layout.addWidget(title_label)
+        v_box_layout.addWidget(author_label)
+        v_box_layout.addWidget(self.intro_label)
+        v_box_layout.setAlignment(
+            Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft
+        )
+        h_box_layout.addLayout(v_box_layout)
 
-        hBoxLayout.addStretch(1)
-        hBoxLayout.addWidget(read_btn, 0, Qt.AlignRight)
-        hBoxLayout.addWidget(more_btn, 0, Qt.AlignRight)
+        # h_box_layout.addStretch(1)
+        h_box_layout.addWidget(read_btn, 0, Qt.AlignRight)
+        h_box_layout.addWidget(more_btn, 0, Qt.AlignRight)
 
         more_btn.setFixedSize(32, 32)
 
