@@ -1,8 +1,11 @@
+from qfluentwidgets import FluentIcon
+
 from src.common.tools import load_json
 from .ui_explore import Ui_NovelExplore
-from PySide6.QtWidgets import QWidget, QListWidgetItem
+from PySide6.QtWidgets import QWidget, QListWidgetItem, QLayout
 from PySide6.QtCore import Qt
 from .tools import parser_exploreUrl
+from .components.book_card import BookCard
 
 
 class NovelList(Ui_NovelExplore, QWidget):
@@ -18,6 +21,8 @@ class NovelList(Ui_NovelExplore, QWidget):
 
     def init_ui(self) -> None:
         self.book_footer.hide()
+        self.btn_prev.setIcon(FluentIcon.LEFT_ARROW)
+        self.btn_next.setIcon(FluentIcon.RIGHT_ARROW)
 
     def init_signal(self) -> None:
         self.list.itemClicked.connect(self.on_list_item_clicked)
@@ -64,3 +69,25 @@ class NovelList(Ui_NovelExplore, QWidget):
         book_source_url = item.data(Qt.ItemDataRole.UserRole + 1)
         print(url)
         print(book_source_url)
+        self.render_book_list(url)
+
+    def clear_layout(self, layout: QLayout):
+        if layout is not None:
+            while layout.count():
+                item = layout.takeAt(0)
+                widget = item.widget()
+                if widget:
+                    widget.deleteLater()  # 异步删除小部件
+                else:
+                    layout.removeItem(item)
+                    if item.layout():
+                        self.clear_layout(item.layout())
+
+    def render_book_list(self, data) -> None:
+        self.clear_layout(self.qvl_list)
+        self.qvl_list.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.qvl_list.setSpacing(8)
+        self.book_footer.show()
+        for item in range(21):
+            book = BookCard()
+            self.qvl_list.addWidget(book)

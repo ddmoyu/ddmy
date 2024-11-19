@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtCore import Qt, Signal, QSize
+from PySide6.QtGui import QPixmap
 from qfluentwidgets import (
     ImageLabel,
     ElevatedCardWidget,
@@ -25,8 +26,14 @@ class BookCard(ElevatedCardWidget):
         main_layout.setSpacing(10)
 
         image_label = ImageLabel(self)
-        image_label.setImage("src/resource/images/cover.jpg")
-        image_label.setScaledSize(QSize(180, 240))
+        pixmap = QPixmap("src/resource/images/cover.jpg")
+        scaled_pixmap = pixmap.scaled(
+            QSize(180, 240),
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
+        )
+        image_label.setPixmap(scaled_pixmap)
+
         image_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         image_label.setBorderRadius(10, 10, 0, 0)
         main_layout.addWidget(image_label)

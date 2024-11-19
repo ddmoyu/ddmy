@@ -1,7 +1,7 @@
 from src.views.novel.pages.bookshelf.ui_bookshelf import Ui_NovelBookshelf
 from PySide6.QtWidgets import QWidget
 from qfluentwidgets import FluentIcon
-from src.views.novel.pages.bookshelf.componments.group_box import GroupBox
+from src.views.novel.pages.bookshelf.components.group_box import GroupBox
 
 
 class NovelBookshelf(Ui_NovelBookshelf, QWidget):

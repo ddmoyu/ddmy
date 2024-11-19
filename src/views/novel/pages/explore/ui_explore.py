@@ -15,10 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QGridLayout, QLabel, QListWidgetItem,
-    QSizePolicy, QSpacerItem, QWidget)
+from PySide6.QtWidgets import (QApplication, QGridLayout, QListWidgetItem, QSizePolicy,
+    QSpacerItem, QVBoxLayout, QWidget)
 
-from qfluentwidgets import (ListWidget, SearchLineEdit, SingleDirectionScrollArea, ToolButton)
+from qfluentwidgets import (BodyLabel, ListWidget, SearchLineEdit, SingleDirectionScrollArea,
+    ToolButton)
 
 class Ui_NovelExplore(object):
     def setupUi(self, NovelExplore):
@@ -76,7 +77,7 @@ class Ui_NovelExplore(object):
 
         self.gridLayout_3.addWidget(self.btn_prev, 2, 3, 1, 1)
 
-        self.lb_total = QLabel(self.book_footer)
+        self.lb_total = BodyLabel(self.book_footer)
         self.lb_total.setObjectName(u"lb_total")
 
         self.gridLayout_3.addWidget(self.lb_total, 2, 0, 1, 1)
@@ -90,6 +91,15 @@ class Ui_NovelExplore(object):
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
         self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 634, 690))
+        self.gridLayout_4 = QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout_4.setSpacing(0)
+        self.gridLayout_4.setObjectName(u"gridLayout_4")
+        self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.qvl_list = QVBoxLayout()
+        self.qvl_list.setObjectName(u"qvl_list")
+
+        self.gridLayout_4.addLayout(self.qvl_list, 0, 0, 1, 1)
+
         self.book_list.setWidget(self.scrollAreaWidgetContents)
 
         self.gridLayout.addWidget(self.book_list, 1, 2, 2, 1)
@@ -102,8 +112,8 @@ class Ui_NovelExplore(object):
 
     def retranslateUi(self, NovelExplore):
         NovelExplore.setWindowTitle(QCoreApplication.translate("NovelExplore", u"Form", None))
-        self.btn_next.setText(QCoreApplication.translate("NovelExplore", u"->", None))
-        self.btn_prev.setText(QCoreApplication.translate("NovelExplore", u"<-", None))
-        self.lb_total.setText(QCoreApplication.translate("NovelExplore", u"\u7b2c\u4e00\u9875", None))
+        self.btn_next.setText("")
+        self.btn_prev.setText("")
+        self.lb_total.setText(QCoreApplication.translate("NovelExplore", u"\u7b2c 1 \u9875", None))
     # retranslateUi
 

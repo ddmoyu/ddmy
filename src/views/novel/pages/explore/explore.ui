@@ -103,7 +103,7 @@
       <item row="2" column="4">
        <widget class="ToolButton" name="btn_next">
         <property name="text">
-         <string>-&gt;</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -123,14 +123,14 @@
       <item row="2" column="3">
        <widget class="ToolButton" name="btn_prev">
         <property name="text">
-         <string>&lt;-</string>
+         <string/>
         </property>
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="lb_total">
+       <widget class="BodyLabel" name="lb_total">
         <property name="text">
-         <string>第一页</string>
+         <string>第 1 页</string>
         </property>
        </widget>
       </item>
@@ -151,6 +151,26 @@
         <height>690</height>
        </rect>
       </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="qvl_list"/>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
@@ -176,6 +196,11 @@
   <customwidget>
    <class>ToolButton</class>
    <extends>QToolButton</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>BodyLabel</class>
+   <extends>QLabel</extends>
    <header>qfluentwidgets</header>
   </customwidget>
  </customwidgets>
