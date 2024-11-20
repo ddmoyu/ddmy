@@ -48,7 +48,7 @@
        <number>6</number>
       </property>
       <item row="0" column="0">
-       <widget class="BodyLabel" name="label_2">
+       <widget class="BodyLabel" name="lb_total">
         <property name="text">
          <string>书源</string>
         </property>

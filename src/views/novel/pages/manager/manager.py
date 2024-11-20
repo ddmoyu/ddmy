@@ -1,7 +1,13 @@
 import asyncio
-
+from datetime import datetime
 from .ui_manager import Ui_NovelManager
-from PySide6.QtWidgets import QWidget, QTableWidgetItem, QHeaderView, QAbstractItemView
+from PySide6.QtWidgets import (
+    QWidget,
+    QTableWidgetItem,
+    QHeaderView,
+    QAbstractItemView,
+    QHBoxLayout,
+)
 from PySide6.QtCore import Qt, QPoint
 from qfluentwidgets import (
     InfoBar,
@@ -9,6 +15,7 @@ from qfluentwidgets import (
     RoundMenu,
     Action,
     MenuAnimationType,
+    SwitchButton,
 )
 from src.views.novel.utils.utils import load_json
 from qasync import Slot
@@ -26,7 +33,7 @@ class NovelManager(Ui_NovelManager, QWidget):
         self.init_data()
 
     def init_ui(self):
-        headers = ["名称", "分组", "链接", "状态"]
+        headers = ["名称", "分组", "链接", "更新时间", "备注", "状态"]
         self.table_sources.horizontalHeader().setSectionResizeMode(
             QHeaderView.ResizeMode.Stretch
         )
@@ -37,6 +44,14 @@ class NovelManager(Ui_NovelManager, QWidget):
         self.table_sources.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.table_sources.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.table_sources.customContextMenuRequested.connect(self.show_context_menu)
+        self.table_sources.horizontalHeader().setSectionResizeMode(
+            3, QHeaderView.ResizeMode.Fixed
+        )
+        self.table_sources.setColumnWidth(3, 145)
+        self.table_sources.horizontalHeader().setSectionResizeMode(
+            5, QHeaderView.ResizeMode.Fixed
+        )
+        self.table_sources.setColumnWidth(5, 100)
 
     def init_signal(self):
         self.btn_import_sources_internet.clicked.connect(self.on_import_from_internet)
@@ -47,13 +62,10 @@ class NovelManager(Ui_NovelManager, QWidget):
 
     def show_context_menu(self, pos):
         menu = RoundMenu()
-        toggle_action = Action("开启/关闭", self)
         modify_action = Action("修改", self)
         delete_action = Action("删除", self)
-        toggle_action.triggered.connect(self.toggle_item)
         modify_action.triggered.connect(self.modify_item)
         delete_action.triggered.connect(self.delete_item)
-        menu.addAction(toggle_action)
         menu.addAction(modify_action)
         menu.addAction(delete_action)
         pos = QPoint(pos)
@@ -61,15 +73,14 @@ class NovelManager(Ui_NovelManager, QWidget):
         y = pos.y() + 100
         menu.exec_(self.mapToGlobal(QPoint(x, y)), aniType=MenuAnimationType.PULL_UP)
 
-    @Slot(str)
-    def right_menu_clicked(self, item_text):
-        print("clicked item", item_text)
-
-    def toggle_item(self):
+    def toggle_item(self, checked):
         print("toggle item")
 
     def delete_item(self):
         print("delete item")
+        row = self.table_sources.currentRow()
+        name = self.table_sources.item(row, 0).text()
+        print(name)
 
     def modify_item(self):
         print("modify item")
@@ -77,6 +88,7 @@ class NovelManager(Ui_NovelManager, QWidget):
     def render_sources_table(self):
         self.table_sources.clearContents()
         sources = load_json("novel_sources.json")
+        self.lb_total.setText("共 " + str(len(sources)) + " 条数据")
         if not sources:
             return
 
@@ -85,13 +97,36 @@ class NovelManager(Ui_NovelManager, QWidget):
             self.table_sources.setItem(
                 row, 0, QTableWidgetItem(source["bookSourceName"])
             )
-            group = source.get("bookSourceGroup", "未分组")
+
+            group = source.get("bookSourceGroup", "无")
             self.table_sources.setItem(row, 1, QTableWidgetItem(group))
-            self.table_sources.setItem(
-                row, 2, QTableWidgetItem(source["bookSourceUrl"])
-            )
-            status = "启用" if source.get("enabled", False) else "禁用"
-            self.table_sources.setItem(row, 3, QTableWidgetItem(status))
+
+            url = source.get("bookSourceUrl", "无")
+            url_item = QTableWidgetItem(url)
+            url_item.setToolTip(url)
+            self.table_sources.setItem(row, 2, url_item)
+
+            last_update_time = source.get("lastUpdateTime", 0)
+            timestamp_s = float(last_update_time) / 1000.0
+            dt_object = datetime.fromtimestamp(timestamp_s)
+            formatted_time = dt_object.strftime("%Y-%m-%d %H:%M")
+            self.table_sources.setItem(row, 3, QTableWidgetItem(formatted_time))
+
+            comment = source.get("bookSourceComment", "")
+            comment_item = QTableWidgetItem(comment)
+            comment_item.setToolTip(comment)
+            self.table_sources.setItem(row, 4, comment_item)
+
+            switch = SwitchButton()
+            switch.setChecked(source.get("enabled", False))
+            switch.checkedChanged.connect(self.toggle_item)
+            container = QWidget()
+            layout = QHBoxLayout(container)
+            layout.addWidget(switch)
+            layout.setAlignment(Qt.AlignCenter)
+            layout.setContentsMargins(0, 0, 0, 0)
+            container.setLayout(layout)
+            self.table_sources.setCellWidget(row, 5, container)
 
     def on_import_from_internet(self):
         asyncio.create_task(self.import_feeds_internet())

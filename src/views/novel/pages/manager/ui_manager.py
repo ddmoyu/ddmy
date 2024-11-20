@@ -35,10 +35,10 @@ class Ui_NovelManager(object):
         self.gridLayout_3.setSpacing(6)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.label_2 = BodyLabel(self.wgt_sources)
-        self.label_2.setObjectName(u"label_2")
+        self.lb_total = BodyLabel(self.wgt_sources)
+        self.lb_total.setObjectName(u"lb_total")
 
-        self.gridLayout_3.addWidget(self.label_2, 0, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.lb_total, 0, 0, 1, 1)
 
         self.horizontalSpacer_2 = QSpacerItem(460, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -70,7 +70,7 @@ class Ui_NovelManager(object):
 
     def retranslateUi(self, NovelManager):
         NovelManager.setWindowTitle(QCoreApplication.translate("NovelManager", u"Form", None))
-        self.label_2.setText(QCoreApplication.translate("NovelManager", u"\u4e66\u6e90", None))
+        self.lb_total.setText(QCoreApplication.translate("NovelManager", u"\u4e66\u6e90", None))
         self.btn_import_sources_internet.setText(QCoreApplication.translate("NovelManager", u"\u7f51\u7edc\u5bfc\u5165", None))
         self.btn_import_sources_local.setText(QCoreApplication.translate("NovelManager", u"\u672c\u5730\u5bfc\u5165", None))
     # retranslateUi
