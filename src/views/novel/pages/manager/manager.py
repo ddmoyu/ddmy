@@ -33,6 +33,8 @@ class NovelManager(Ui_NovelManager, QWidget):
         self.init_data()
 
     def init_ui(self):
+        self.progressBar.hide()
+
         headers = ["名称", "分组", "链接", "更新时间", "备注", "状态"]
         self.table_sources.horizontalHeader().setSectionResizeMode(
             QHeaderView.ResizeMode.Stretch
