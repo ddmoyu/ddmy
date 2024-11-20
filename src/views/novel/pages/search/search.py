@@ -2,7 +2,7 @@ from qfluentwidgets import IndeterminateProgressBar, FluentIcon
 from src.views.novel.pages.search.ui_search import Ui_NovelSearch
 from PySide6.QtWidgets import QWidget, QLayout
 from PySide6.QtGui import QColor
-from src.views.novel.pages.search.components.book_card import BookCard
+from src.components.book_card import BookCard
 
 
 class NovelSearch(Ui_NovelSearch, QWidget):

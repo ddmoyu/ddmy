@@ -5,7 +5,7 @@ from .ui_explore import Ui_NovelExplore
 from PySide6.QtWidgets import QWidget, QListWidgetItem, QLayout
 from PySide6.QtCore import Qt
 from .tools import parser_exploreUrl
-from .components.book_card import BookCard
+from src.components.book_card import BookCard
 
 
 class NovelList(Ui_NovelExplore, QWidget):
