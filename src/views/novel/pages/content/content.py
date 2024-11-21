@@ -15,6 +15,7 @@ class NovelContent(Ui_NovelContent, QWidget):
 
     def initUI(self):
         self.wgt_style.hide()
+        self.btn_chapter.setIcon(FluentIcon.MENU)
         self.btn_view.setIcon(FluentIcon.VIEW)
         self.btn_style.setIcon(FluentIcon.SETTING)
         self.btn_next_chapter.setIcon(FluentIcon.PAGE_RIGHT)

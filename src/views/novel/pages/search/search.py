@@ -2,7 +2,9 @@ from qfluentwidgets import IndeterminateProgressBar, FluentIcon
 from src.views.novel.pages.search.ui_search import Ui_NovelSearch
 from PySide6.QtWidgets import QWidget, QLayout
 from PySide6.QtGui import QColor
-from src.components.book_card import BookCard
+from src.common.tools import load_json
+from src.views.novel.utils.utils import fetch_search
+from qasync import asyncSlot
 
 
 class NovelSearch(Ui_NovelSearch, QWidget):
@@ -10,7 +12,6 @@ class NovelSearch(Ui_NovelSearch, QWidget):
         super().__init__(parent=parent)
         self.parent = parent
         self.setupUi(self)
-        # self.qvl_book_list = None
         self.progress = None
 
         self.init_ui()
@@ -30,14 +31,37 @@ class NovelSearch(Ui_NovelSearch, QWidget):
         self.le_search.textChanged.connect(self.search_changed_handler)
         self.btn_stop.clicked.connect(self.search_pause_handler)
 
-    def search_event_handler(self):
+    # def on_search_event_handler(self):
+    #     asyncio.run(self.search_event_handler())
+
+    @asyncSlot()
+    async def search_event_handler(self):
+        sources = load_json("novel_sources.json")
+        if not sources:
+            return
+
         self.container.show()
         self.progress.show()
         self.btn_stop.show()
         self.clear_layout(self.qvl_book_list)
-        for item in range(20):
-            book = BookCard()
-            self.qvl_book_list.addWidget(book)
+
+        # list = []
+        keyword = self.le_search.text()
+        idx = 0
+
+        for item in sources:
+            if idx > 5:
+                break
+            search_url = item.get("searchUrl", None)
+            source_url = item.get("bookSourceUrl", None)
+            if search_url:
+                item = await fetch_search(search_url, source_url, keyword)
+                idx += 1
+                print(item)
+
+        # for item in range(20):
+        #     book = BookCard()
+        #     self.qvl_book_list.addWidget(book)
 
     def clear_layout(self, layout: QLayout):
         if layout is not None:

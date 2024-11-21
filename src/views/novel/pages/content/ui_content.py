@@ -15,11 +15,12 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QPushButton,
-    QSizePolicy, QSpacerItem, QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHeaderView,
+    QPushButton, QSizePolicy, QSpacerItem, QTreeWidgetItem,
+    QWidget)
 
-from qfluentwidgets import (BodyLabel, ComboBox, CompactSpinBox, TextBrowser,
-    TransparentToolButton)
+from qfluentwidgets import (BodyLabel, ComboBox, CompactSpinBox, ListWidget,
+    TextBrowser, TransparentToolButton)
 
 class Ui_NovelContent(object):
     def setupUi(self, NovelContent):
@@ -38,63 +39,7 @@ class Ui_NovelContent(object):
         self.textBrowser = TextBrowser(self.widget)
         self.textBrowser.setObjectName(u"textBrowser")
 
-        self.gridLayout_2.addWidget(self.textBrowser, 1, 0, 1, 1)
-
-        self.frame_top = QFrame(self.widget)
-        self.frame_top.setObjectName(u"frame_top")
-        self.frame_top.setFrameShape(QFrame.Shape.NoFrame)
-        self.frame_top.setFrameShadow(QFrame.Shadow.Plain)
-        self.gridLayout_4 = QGridLayout(self.frame_top)
-        self.gridLayout_4.setObjectName(u"gridLayout_4")
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_4.addItem(self.horizontalSpacer_2, 0, 1, 1, 1)
-
-        self.pushButton_3 = QPushButton(self.frame_top)
-        self.pushButton_3.setObjectName(u"pushButton_3")
-
-        self.gridLayout_4.addWidget(self.pushButton_3, 0, 2, 1, 1)
-
-        self.btn_view = TransparentToolButton(self.frame_top)
-        self.btn_view.setObjectName(u"btn_view")
-
-        self.gridLayout_4.addWidget(self.btn_view, 0, 3, 1, 1)
-
-        self.lb_chapter = BodyLabel(self.frame_top)
-        self.lb_chapter.setObjectName(u"lb_chapter")
-
-        self.gridLayout_4.addWidget(self.lb_chapter, 0, 0, 1, 1)
-
-        self.btn_style = TransparentToolButton(self.frame_top)
-        self.btn_style.setObjectName(u"btn_style")
-
-        self.gridLayout_4.addWidget(self.btn_style, 0, 4, 1, 1)
-
-
-        self.gridLayout_2.addWidget(self.frame_top, 0, 0, 1, 2)
-
-        self.frame_footer = QFrame(self.widget)
-        self.frame_footer.setObjectName(u"frame_footer")
-        self.frame_footer.setFrameShape(QFrame.Shape.NoFrame)
-        self.frame_footer.setFrameShadow(QFrame.Shadow.Plain)
-        self.gridLayout_3 = QGridLayout(self.frame_footer)
-        self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_3.addItem(self.horizontalSpacer, 0, 1, 1, 1)
-
-        self.btn_next_chapter = TransparentToolButton(self.frame_footer)
-        self.btn_next_chapter.setObjectName(u"btn_next_chapter")
-
-        self.gridLayout_3.addWidget(self.btn_next_chapter, 0, 3, 1, 1)
-
-        self.btn_prev_chapter = TransparentToolButton(self.frame_footer)
-        self.btn_prev_chapter.setObjectName(u"btn_prev_chapter")
-
-        self.gridLayout_3.addWidget(self.btn_prev_chapter, 0, 2, 1, 1)
-
-
-        self.gridLayout_2.addWidget(self.frame_footer, 2, 0, 1, 2)
+        self.gridLayout_2.addWidget(self.textBrowser, 1, 1, 1, 1)
 
         self.wgt_style = QFrame(self.widget)
         self.wgt_style.setObjectName(u"wgt_style")
@@ -158,7 +103,86 @@ class Ui_NovelContent(object):
         self.gridLayout_5.addWidget(self.cbb_font_family, 0, 1, 1, 1)
 
 
-        self.gridLayout_2.addWidget(self.wgt_style, 1, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.wgt_style, 1, 2, 1, 1)
+
+        self.wgt_style_2 = QFrame(self.widget)
+        self.wgt_style_2.setObjectName(u"wgt_style_2")
+        self.wgt_style_2.setMinimumSize(QSize(220, 0))
+        self.wgt_style_2.setFrameShape(QFrame.Shape.StyledPanel)
+        self.wgt_style_2.setFrameShadow(QFrame.Shadow.Raised)
+        self.gridLayout_6 = QGridLayout(self.wgt_style_2)
+        self.gridLayout_6.setObjectName(u"gridLayout_6")
+        self.treeWidget = ListWidget(self.wgt_style_2)
+        __qtreewidgetitem = QTreeWidgetItem()
+        __qtreewidgetitem.setText(0, u"1");
+        self.treeWidget.setHeaderItem(__qtreewidgetitem)
+        self.treeWidget.setObjectName(u"treeWidget")
+
+        self.gridLayout_6.addWidget(self.treeWidget, 0, 0, 1, 1)
+
+
+        self.gridLayout_2.addWidget(self.wgt_style_2, 1, 0, 1, 1)
+
+        self.frame_top = QFrame(self.widget)
+        self.frame_top.setObjectName(u"frame_top")
+        self.frame_top.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_top.setFrameShadow(QFrame.Shadow.Plain)
+        self.gridLayout_4 = QGridLayout(self.frame_top)
+        self.gridLayout_4.setObjectName(u"gridLayout_4")
+        self.pushButton_3 = QPushButton(self.frame_top)
+        self.pushButton_3.setObjectName(u"pushButton_3")
+
+        self.gridLayout_4.addWidget(self.pushButton_3, 0, 3, 1, 1)
+
+        self.lb_chapter = BodyLabel(self.frame_top)
+        self.lb_chapter.setObjectName(u"lb_chapter")
+
+        self.gridLayout_4.addWidget(self.lb_chapter, 0, 1, 1, 1)
+
+        self.btn_style = TransparentToolButton(self.frame_top)
+        self.btn_style.setObjectName(u"btn_style")
+
+        self.gridLayout_4.addWidget(self.btn_style, 0, 5, 1, 1)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_4.addItem(self.horizontalSpacer_2, 0, 2, 1, 1)
+
+        self.btn_view = TransparentToolButton(self.frame_top)
+        self.btn_view.setObjectName(u"btn_view")
+
+        self.gridLayout_4.addWidget(self.btn_view, 0, 4, 1, 1)
+
+        self.btn_chapter = TransparentToolButton(self.frame_top)
+        self.btn_chapter.setObjectName(u"btn_chapter")
+
+        self.gridLayout_4.addWidget(self.btn_chapter, 0, 0, 1, 1)
+
+
+        self.gridLayout_2.addWidget(self.frame_top, 0, 0, 1, 3)
+
+        self.frame_footer = QFrame(self.widget)
+        self.frame_footer.setObjectName(u"frame_footer")
+        self.frame_footer.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_footer.setFrameShadow(QFrame.Shadow.Plain)
+        self.gridLayout_3 = QGridLayout(self.frame_footer)
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_3.addItem(self.horizontalSpacer, 0, 1, 1, 1)
+
+        self.btn_next_chapter = TransparentToolButton(self.frame_footer)
+        self.btn_next_chapter.setObjectName(u"btn_next_chapter")
+
+        self.gridLayout_3.addWidget(self.btn_next_chapter, 0, 3, 1, 1)
+
+        self.btn_prev_chapter = TransparentToolButton(self.frame_footer)
+        self.btn_prev_chapter.setObjectName(u"btn_prev_chapter")
+
+        self.gridLayout_3.addWidget(self.btn_prev_chapter, 0, 2, 1, 1)
+
+
+        self.gridLayout_2.addWidget(self.frame_footer, 2, 0, 1, 3)
 
 
         self.gridLayout.addWidget(self.widget, 0, 0, 1, 1)
@@ -171,16 +195,17 @@ class Ui_NovelContent(object):
 
     def retranslateUi(self, NovelContent):
         NovelContent.setWindowTitle(QCoreApplication.translate("NovelContent", u"Form", None))
-        self.pushButton_3.setText(QCoreApplication.translate("NovelContent", u"PushButton", None))
-        self.btn_view.setText("")
-        self.lb_chapter.setText(QCoreApplication.translate("NovelContent", u"\u7ae0\u8282\u540d", None))
-        self.btn_style.setText("")
-        self.btn_next_chapter.setText("")
-        self.btn_prev_chapter.setText("")
         self.label_4.setText(QCoreApplication.translate("NovelContent", u"\u6bb5\u8ddd\uff1a", None))
         self.label_2.setText(QCoreApplication.translate("NovelContent", u"\u5b57\u8ddd\uff1a", None))
         self.label_3.setText(QCoreApplication.translate("NovelContent", u"\u884c\u8ddd\uff1a", None))
         self.label.setText(QCoreApplication.translate("NovelContent", u"\u5b57\u53f7\uff1a", None))
         self.label_5.setText(QCoreApplication.translate("NovelContent", u"\u5b57\u4f53\uff1a", None))
+        self.pushButton_3.setText(QCoreApplication.translate("NovelContent", u"PushButton", None))
+        self.lb_chapter.setText(QCoreApplication.translate("NovelContent", u"\u7ae0\u8282\u540d", None))
+        self.btn_style.setText("")
+        self.btn_view.setText("")
+        self.btn_chapter.setText("")
+        self.btn_next_chapter.setText("")
+        self.btn_prev_chapter.setText("")
     # retranslateUi
 

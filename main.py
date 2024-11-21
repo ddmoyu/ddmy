@@ -8,7 +8,7 @@ from src.views.hide.hide import HideWindow
 from qfluentwidgets import setTheme, Theme
 from qasync import QEventLoop
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     setTheme(Theme.DARK)
     app = QApplication(sys.argv)
 
@@ -22,8 +22,8 @@ if __name__ == '__main__':
     w.show()
 
     h = HideWindow()
-    # h.show()
-    h.hide()
+    h.show()
+    # h.hide()
 
     event_loop.run_until_complete(app_close_event.wait())
     event_loop.close()

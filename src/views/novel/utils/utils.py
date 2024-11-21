@@ -1,6 +1,8 @@
-import json
 import re
+import json
+import httpx
 from parsel import Selector
+from urllib.parse import urljoin
 
 from src.common.tools import save_json, load_json
 from src.common.request import fetch_json_async
@@ -74,11 +76,8 @@ async def fetch_book_sources(url, save=False):
     resources = filter_rule_content(resources)
     if not resources:
         return []
-    resources = clean_hash_value(resources)
-    if not resources:
-        return []
-    book_sources = get_book_sources() or []
 
+    book_sources = get_book_sources() or []
     existing_urls = {source["bookSourceUrl"]: source for source in book_sources}
     for resource in resources:
         url = resource["bookSourceUrl"]
@@ -89,3 +88,73 @@ async def fetch_book_sources(url, save=False):
     if save:
         save_json(book_sources, "novel_sources.json")
     return book_sources
+
+
+def check_rule_type(rule):
+    if rule.startswith("@css"):
+        return "Css"
+    elif rule.startswith("@json") or rule.startswith("$."):
+        return "JsonPath"
+    elif rule.startswith("@xpath") or rule.startswith("//"):
+        return "Xpath"
+    elif rule.startswith("<js>") or rule.startswith("@js"):
+        return "Javascript"
+    else:
+        return "css"
+
+
+async def fetch_search(url: str, source_url: str, keyword: str):
+    if url.startswith("@js:") or url.startswith("{{"):
+        return []
+
+    if not url.startswith("http"):
+        if source_url is not None:
+            source_url = re.sub(r"##.*", "", source_url)
+            url = urljoin(source_url, url)
+        else:
+            return []
+
+    url = url.replace("{{key}}", keyword)
+    url = url.replace("{{page}}", "1")
+
+    if "," in url:
+        url, json_config = url.split(",", 1)
+        config = json.loads(json_config)
+    else:
+        config = {}
+
+    headers = {}
+    method = config.get("method", "GET")
+    charset = config.get("charset", "utf-8")
+    body = config.get("body", None)
+
+    if body:
+        if keyword in body:
+            body = body.replace(keyword, keyword)
+        body = body.encode(charset)
+
+    if "headers" in config:
+        headers.update(config["headers"])
+
+    async with httpx.AsyncClient(
+        timeout=httpx.Timeout(10.0, connect=10.0), follow_redirects=True
+    ) as client:
+        if method == "POST":
+            response = await client.post(url, headers=headers, content=body)
+        else:
+            response = await client.get(url, headers=headers)
+
+        print(response.text)
+        return response.text
+
+
+async def fetch_search_test():
+    item = await fetch_search(
+        "https://www.00shu.la/modules/article/search.php?q={{key}}",
+        "https://www.yodu.org",
+        "盘龙",
+    )
+    print(item)
+
+
+# asyncio.run(fetch_search_test())
