@@ -3,7 +3,7 @@ from src.views.novel.pages.search.ui_search import Ui_NovelSearch
 from PySide6.QtWidgets import QWidget, QLayout
 from PySide6.QtGui import QColor
 from src.common.tools import load_json
-from src.views.novel.utils.utils import fetch_search
+from src.views.novel.utils.utils import fetch_search, parse_search_result
 from qasync import asyncSlot
 
 
@@ -50,14 +50,17 @@ class NovelSearch(Ui_NovelSearch, QWidget):
         idx = 0
 
         for item in sources:
-            if idx > 5:
-                break
             search_url = item.get("searchUrl", None)
             source_url = item.get("bookSourceUrl", None)
-            if search_url:
+            ruleSearch = item.get("ruleSearch", None)
+            print(search_url)
+            print(source_url)
+            # if source_url == "http://www.zhuishushenqi.com/nansheng":
+            if search_url and ruleSearch:
                 item = await fetch_search(search_url, source_url, keyword)
                 idx += 1
                 print(item)
+                parse_search_result(item, ruleSearch)
 
         # for item in range(20):
         #     book = BookCard()

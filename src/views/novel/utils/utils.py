@@ -1,8 +1,10 @@
 import re
 import json
 import httpx
+import asyncio
 from parsel import Selector
 from urllib.parse import urljoin
+from src.views.novel.utils.jsoup_to_parsel import apply_advanced_rules
 
 from src.common.tools import save_json, load_json
 from src.common.request import fetch_json_async
@@ -136,6 +138,7 @@ async def fetch_search(url: str, source_url: str, keyword: str):
     if "headers" in config:
         headers.update(config["headers"])
 
+    print(f"fetching {url}")
     async with httpx.AsyncClient(
         timeout=httpx.Timeout(10.0, connect=10.0), follow_redirects=True
     ) as client:
@@ -150,11 +153,29 @@ async def fetch_search(url: str, source_url: str, keyword: str):
 
 async def fetch_search_test():
     item = await fetch_search(
-        "https://www.00shu.la/modules/article/search.php?q={{key}}",
-        "https://www.yodu.org",
+        "https://www.zhuishushenqi.com/search?val={{key}}",
+        "",
         "盘龙",
     )
     print(item)
+    book_list = apply_advanced_rules(item, "class.book.all")
+    print(book_list)
+    # if not book_list:
+    #     return []
+    #
+    # results = []
+    # for book in book_list:
+    #     book_info = {
+    #         "author": apply_advanced_rules(book, "class.author@tag.span.0@text"),
+    #         "bookUrl": apply_advanced_rules(book, "a@href"),
+    #         "coverUrl": apply_advanced_rules(book, "img@src"),
+    #         "kind": apply_advanced_rules(
+    #             book, "class.author@tag.span.2@text&&class.popularity@text##\\|.*"
+    #         ),
+    #         "lastChapter": apply_advanced_rules(book, "class.popularity@text##.*\\|"),
+    #         "name": apply_advanced_rules(book, "class.name@text"),
+    #     }
+    #     results.append(book_info)
 
 
-# asyncio.run(fetch_search_test())
+asyncio.run(fetch_search_test())
