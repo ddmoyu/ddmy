@@ -1,3 +1,4 @@
+import os
 import asyncio
 from datetime import datetime
 from .ui_manager import Ui_NovelManager
@@ -20,7 +21,9 @@ from qfluentwidgets import (
 from src.views.novel.utils.utils import load_json
 from qasync import Slot
 from src.views.novel.utils.utils import fetch_book_sources
-from .components.importInternet import ImportMsgbox
+from .components.import_network import ImportNetworkMsgbox
+from .components.import_local import ImportLocalMsgbox
+from src.views.novel.utils.u_manager import import_local_source, merge_sources
 
 
 class NovelManager(Ui_NovelManager, QWidget):
@@ -57,6 +60,7 @@ class NovelManager(Ui_NovelManager, QWidget):
 
     def init_signal(self):
         self.btn_import_sources_internet.clicked.connect(self.on_import_from_internet)
+        self.btn_import_sources_local.clicked.connect(self.on_import_from_local)
         # self.btn_import_sources_local.clicked.connect(self.show_context_menu)
 
     def init_data(self):
@@ -133,9 +137,37 @@ class NovelManager(Ui_NovelManager, QWidget):
     def on_import_from_internet(self):
         asyncio.create_task(self.import_feeds_internet())
 
+    def on_import_from_local(self):
+        w = ImportLocalMsgbox(self)
+        if w.exec():
+            filepath = w.lineEdit.text()
+            if not os.path.exists(filepath):
+                InfoBar.error(
+                    "", "文件不存在", parent=self, position=InfoBarPosition.BOTTOM
+                )
+                return
+            InfoBar.info(
+                "", "正在导入...", parent=self, position=InfoBarPosition.BOTTOM
+            )
+            source_list = import_local_source(filepath)
+            if not source_list:
+                InfoBar.error(
+                    "", "没有找到任何资源", parent=self, position=InfoBarPosition.BOTTOM
+                )
+                return
+            else:
+                source_list = merge_sources(source_list)
+                InfoBar.success(
+                    "",
+                    "导入成功, 共{}个".format(len(source_list)),
+                    parent=self,
+                    position=InfoBarPosition.BOTTOM,
+                )
+            self.render_sources_table()
+
     @Slot()
     async def import_feeds_internet(self):
-        w = ImportMsgbox(self)
+        w = ImportNetworkMsgbox(self)
         if w.exec():
             url = w.urlLineEdit.text()
             if not url:
@@ -146,16 +178,17 @@ class NovelManager(Ui_NovelManager, QWidget):
             InfoBar.info(
                 "", "正在导入...", parent=self, position=InfoBarPosition.BOTTOM
             )
-            list = await fetch_book_sources(url, True)
-            if not list:
+            source_list = await fetch_book_sources(url, True)
+            if not source_list:
                 InfoBar.error(
                     "", "没有找到任何资源", parent=self, position=InfoBarPosition.BOTTOM
                 )
                 return
-            InfoBar.success(
-                "",
-                "导入成功, 共{}个".format(len(list)),
-                parent=self,
-                position=InfoBarPosition.BOTTOM,
-            )
+            else:
+                InfoBar.success(
+                    "",
+                    "导入成功, 共{}个".format(len(source_list)),
+                    parent=self,
+                    position=InfoBarPosition.BOTTOM,
+                )
             self.render_sources_table()
