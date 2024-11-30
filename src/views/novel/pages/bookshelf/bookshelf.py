@@ -10,10 +10,10 @@ class NovelBookshelf(Ui_NovelBookshelf, QWidget):
         super().__init__(parent=parent)
         self.parent = parent
         self.setupUi(self)
-        self.initUi()
-        self.initSignalSlot()
+        self.init_ui()
+        self.init_signal()
 
-    def initUi(self):
+    def init_ui(self):
         self.btn_views.setIcon(FluentIcon.VIEW)
         self.btn_filters.setIcon(FluentIcon.FILTER)
         self.btn_add.setIcon(FluentIcon.DICTIONARY_ADD)
@@ -26,7 +26,7 @@ class NovelBookshelf(Ui_NovelBookshelf, QWidget):
         self.verticalLayout.addWidget(gp1)
         self.verticalLayout.addWidget(gp2)
 
-    def initSignalSlot(self):
+    def init_signal(self):
         self.btn_search.clicked.connect(self.on_btn_search_clicked)
 
     def on_btn_search_clicked(self):

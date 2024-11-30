@@ -7,8 +7,10 @@ from src.views.view import MainWindow
 from src.views.hide.hide import HideWindow
 from qfluentwidgets import setTheme, Theme
 from qasync import QEventLoop
+from src.common.tools import setup_logging
 
 if __name__ == "__main__":
+    setup_logging()
     setTheme(Theme.DARK)
     app = QApplication(sys.argv)
 

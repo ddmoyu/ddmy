@@ -3,7 +3,7 @@ from src.views.novel.pages.search.ui_search import Ui_NovelSearch
 from PySide6.QtWidgets import QWidget, QLayout
 from PySide6.QtGui import QColor
 from src.common.tools import load_json
-from src.views.novel.utils.utils import fetch_search, parse_search_result
+from src.views.novel.utils.utils import fetch_search
 from qasync import asyncSlot
 
 
@@ -15,7 +15,7 @@ class NovelSearch(Ui_NovelSearch, QWidget):
         self.progress = None
 
         self.init_ui()
-        self.init_connect()
+        self.init_signal()
 
     def init_ui(self):
         self.container.hide()
@@ -26,7 +26,7 @@ class NovelSearch(Ui_NovelSearch, QWidget):
         self.progressbar_layout.addWidget(self.progress)
         self.progress.hide()
 
-    def init_connect(self):
+    def init_signal(self):
         self.le_search.returnPressed.connect(self.search_event_handler)
         self.le_search.textChanged.connect(self.search_changed_handler)
         self.btn_stop.clicked.connect(self.search_pause_handler)
@@ -60,7 +60,7 @@ class NovelSearch(Ui_NovelSearch, QWidget):
                 item = await fetch_search(search_url, source_url, keyword)
                 idx += 1
                 print(item)
-                parse_search_result(item, ruleSearch)
+                # parse_search_result(item, ruleSearch)
 
         # for item in range(20):
         #     book = BookCard()

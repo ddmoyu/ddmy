@@ -10,10 +10,10 @@ class NovelContent(Ui_NovelContent, QWidget):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.setupUi(self)
-        self.initUI()
-        self.initSignal()
+        self.init_ui()
+        self.init_signal()
 
-    def initUI(self):
+    def init_ui(self):
         self.wgt_style.hide()
         self.btn_chapter.setIcon(FluentIcon.MENU)
         self.btn_view.setIcon(FluentIcon.VIEW)
@@ -21,7 +21,7 @@ class NovelContent(Ui_NovelContent, QWidget):
         self.btn_next_chapter.setIcon(FluentIcon.PAGE_RIGHT)
         self.btn_prev_chapter.setIcon(FluentIcon.PAGE_LEFT)
 
-    def initSignal(self):
+    def init_signal(self):
         self.btn_view.clicked.connect(self.on_btn_view_handler)
         self.btn_style.clicked.connect(self.on_btn_style_handler)
         self.pushButton_3.clicked.connect(
