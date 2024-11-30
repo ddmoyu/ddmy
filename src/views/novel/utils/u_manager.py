@@ -1,4 +1,15 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+书源之「管理」工具类
+
+Author: ddmoyu
+Email: daydaymoyu@gmail.com
+Date: 2024-11-30
+"""
+
 import json
+import logging
 from src.common.tools import load_json, save_json
 
 
@@ -11,9 +22,20 @@ def import_local_source(file_path):
         with open(file_path, "r", encoding="utf-8") as f:
             try:
                 return json.load(f)
-            except json.JSONDecodeError:
+            except json.JSONDecodeError as e:
+                logging.error(f"Failed to decode JSON from {file_path}: {e}")
                 return []
-    except FileNotFoundError:
+    except FileNotFoundError as e:
+        logging.error(f"File not found: {file_path}. Error: {e}")
+        return []
+    except PermissionError as e:
+        logging.error(f"Permission denied: {file_path}. Error: {e}")
+        return []
+    except IsADirectoryError as e:
+        logging.error(f"Expected a file but found a directory: {file_path}. Error: {e}")
+        return []
+    except Exception as e:
+        logging.error(f"An unexpected error occurred while reading {file_path}: {e}")
         return []
 
 

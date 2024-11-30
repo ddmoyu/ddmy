@@ -1,7 +1,6 @@
 import re
 import json
 import httpx
-import asyncio
 from parsel import Selector
 from urllib.parse import urljoin
 from src.views.novel.utils.jsoup_to_parsel import apply_advanced_rules
@@ -178,4 +177,4 @@ async def fetch_search_test():
     #     results.append(book_info)
 
 
-asyncio.run(fetch_search_test())
+# asyncio.run(fetch_search_test())

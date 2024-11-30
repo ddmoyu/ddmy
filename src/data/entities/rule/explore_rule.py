@@ -32,7 +32,7 @@ class ExploreRule:
                 delattr(self, camel)
 
     @classmethod
-    def from_json(cls, json_data: Union[str, Dict[str, Any]]) -> "ExploreRule":
+    def from_json(cls, json_data: Union[str, Dict[str, Any]]) -> "ExploreEntities":
         if isinstance(json_data, str):
             json_obj = json.loads(json_data)
         else:
