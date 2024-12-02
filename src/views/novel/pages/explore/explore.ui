@@ -143,7 +143,7 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="BodyLabel" name="lb_total">
+       <widget class="BodyLabel" name="lb_page">
         <property name="text">
          <string>第 1 页</string>
         </property>

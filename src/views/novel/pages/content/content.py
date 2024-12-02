@@ -2,7 +2,7 @@ from qfluentwidgets import FluentIcon
 from src.views.novel.pages.content.ui_content import Ui_NovelContent
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QFont
-from src.views.novel.utils.utils import parse_content
+from src.views.novel.utils.u_content import parse_content
 from src.common.signal_bus import signalBus
 
 

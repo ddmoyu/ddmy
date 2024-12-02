@@ -18,11 +18,11 @@ from qfluentwidgets import (
     MenuAnimationType,
     SwitchButton,
 )
-from src.views.novel.utils.utils import load_json
+from src.common.tools import load_json
 from qasync import Slot
-from src.views.novel.utils.utils import fetch_book_sources
-from .components.import_network import ImportNetworkMsgbox
-from .components.import_local import ImportLocalMsgbox
+from src.views.novel.utils.u_manager import fetch_book_sources
+from src.views.novel.pages.manager.components.import_network import ImportNetworkMsgbox
+from src.views.novel.pages.manager.components.import_local import ImportLocalMsgbox
 from src.views.novel.utils.u_manager import import_local_source, merge_sources
 
 

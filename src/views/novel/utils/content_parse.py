@@ -28,7 +28,7 @@ class CSSParseStrategy(BaseParseStrategy):
         """
         try:
             selector = Selector(text=content)
-            css_rule = rule.replace("@css:", "").replace("@CSS:", "")
+            css_rule = rule.replace("@css", "").replace("@CSS", "")
             method_map = {
                 "get": selector.css(css_rule).get,
                 "getall": selector.css(css_rule).getall,
@@ -48,7 +48,7 @@ class JMESPathParseStrategy(BaseParseStrategy):
         """
         try:
             selector = Selector(text=content)
-            jmespath_rule = rule.replace("@jmespath:", "").replace("@JMESPath:", "")
+            jmespath_rule = rule.replace("@jmespath", "").replace("@JMESPath", "")
             method_map = {
                 "get": selector.jmespath(jmespath_rule).get,
                 "getall": selector.jmespath(jmespath_rule).getall,
@@ -68,7 +68,7 @@ class JSONParseStrategy(BaseParseStrategy):
         """
         try:
             # Clean rule
-            json_rule = rule.replace("@json:", "").replace("@JSON:", "")
+            json_rule = rule.replace("@json", "").replace("@JSON", "")
 
             # Parse the content if it's a string
             if isinstance(content, str):
@@ -107,7 +107,7 @@ class XPathParseStrategy(BaseParseStrategy):
         """
         try:
             selector = Selector(text=content)
-            xpath_rule = rule.replace("@xpath:", "").replace("@XPATH:", "")
+            xpath_rule = rule.replace("@xpath", "").replace("@XPATH", "")
             method_map = {
                 "get": selector.xpath(xpath_rule).get,
                 "getall": selector.xpath(xpath_rule).getall,

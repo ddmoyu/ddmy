@@ -1,15 +1,18 @@
-from typing import Optional
-
+from typing import Optional, List
+from urllib.parse import urljoin
 from qfluentwidgets import FluentIcon
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QWidget, QLayout, QListWidgetItem
 
 from src.common.tools import load_json
-from .ui_explore import Ui_NovelExplore
-from PySide6.QtWidgets import QWidget, QLayout, QListWidgetItem
-from PySide6.QtCore import Qt
 from src.components.book_card import BookCard
-from src.views.novel.data.entities.source_entity import SourceEntity
 from src.common.signal_bus import signalBus, WebviewType
-from src.views.novel.utils.u_explore import get_category_list
+
+from src.views.novel.pages.explore.ui_explore import Ui_NovelExplore
+from src.views.novel.utils.u_explore import get_category_list, get_explore_list
+from src.views.novel.data_class.category import RuleCategory, DataCategory
+from src.views.novel.data_class.explore import RuleExplore, DataExplore
+from src.views.novel.data_class.source import RuleSource, DataSource
 
 
 class NovelList(Ui_NovelExplore, QWidget):
@@ -17,15 +20,19 @@ class NovelList(Ui_NovelExplore, QWidget):
         super().__init__(parent=parent)
         self.parent = parent
         self.setupUi(self)
-        self.source_list = []
-        self.source_list_dict = {}
-        self.current_source = Optional[SourceEntity]
-        self.current_category = None
-        self.current_explore = None
+
+        self.source_list = Optional[List[RuleSource]]
+        self.current_rule_source = Optional[RuleSource]
+        self.current_rule_category = Optional[RuleCategory]
+        self.current_rule_explore = Optional[RuleExplore]
+
+        self.book_page_number = 1
+        self.prev_url = ""
+        self.next_url = ""
 
         self.init_ui()
         self.init_signal()
-        self.init_list()
+        self.init_sources_list()
 
     def init_ui(self) -> None:
         self.book_footer.hide()
@@ -33,87 +40,63 @@ class NovelList(Ui_NovelExplore, QWidget):
         self.btn_next.setIcon(FluentIcon.RIGHT_ARROW)
 
     def init_signal(self) -> None:
-        self.list.itemClicked.connect(self.on_list_item_clicked)
+        self.list.itemClicked.connect(self.on_sources_list_item_clicked)
         self.category.itemClicked.connect(self.on_category_item_clicked)
+        self.btn_prev.clicked.connect(self.on_prev_clicked)
+        self.btn_next.clicked.connect(self.on_next_clicked)
         signalBus.wv_html.connect(self.get_wv_html)
-
-    def init_list(self) -> None:
-        sources = load_json("novel_sources.json")
-        if not sources:
-            return
-        self.source_list = sources
-        self.source_list_dict = {
-            source.get("bookSourceName"): source for source in sources
-        }
-        self.list.clear()
-        for source in sources:
-            self.list.addItem(source.get("bookSourceName"))
-
-    def on_list_item_clicked(self, item) -> None:
-        self.category.clear()
-        source = self.source_list_dict.get(item.text())
-        if source is None:
-            return
-        print(source)
-        self.current_source = SourceEntity.from_json(source)
-        self.current_category = self.current_source.rule_category
-        self.current_explore = self.current_source.rule_explore
-
-        print(self.current_category.url)
-
-        signalBus.wv_url.emit(WebviewType.CATEGORY, self.current_category.url)
-        # signalBus.wv_navigate.emit(self.current_category.url)
-
-        pass
-        # explore_url = None
-        # for i in range(len(self.json_data)):
-        #     if self.json_data[i]["bookSourceName"] == item.text():
-        #         source = self.json_data[i]
-        #         book_source_url = source["bookSourceUrl"]
-        #         if "exploreUrl" in source:
-        #             explore_url = self.json_data[i]["exploreUrl"]
-        #         if explore_url is None:
-        #             return
-        #         break
-        #
-        # category_list = parser_exploreUrl(explore_url)
-        # if not category_list:
-        #     return
-        #
-        # for category in category_list:
-        #     name = category["name"]
-        #     category_item = QListWidgetItem(name)
-        #     category_item.setData(Qt.ItemDataRole.UserRole, category["url"])
-        #     category_item.setData(Qt.ItemDataRole.UserRole + 1, book_source_url)
-        #     self.category.addItem(category_item)
-        # self.category.scrollToTop()
 
     def get_wv_html(self, wv_type: WebviewType, html):
         if wv_type == WebviewType.CATEGORY:
-            # print("category", html)
-            category_list = get_category_list(html, self.current_category)
-            print("category_list: ", category_list)
+            category_list = get_category_list(html, self.current_rule_category)
             if not category_list:
                 return
             for category in category_list:
-                name = category["name"]
+                name = category.category_name
                 category_item = QListWidgetItem(name)
-                category_item.setData(Qt.ItemDataRole.UserRole, category["url"])
-                category_item.setData(
-                    Qt.ItemDataRole.UserRole + 1, self.current_source.book_source_url
-                )
+                category_item.setData(Qt.ItemDataRole.UserRole, category)
                 self.category.addItem(category_item)
             self.category.scrollToTop()
         elif wv_type == WebviewType.EXPLORE:
-            print("explore", html)
+            explore_list = get_explore_list(html, self.current_rule_explore)
+            if not explore_list:
+                return
+            self.prev_url = explore_list[0].prev_url
+            self.next_url = explore_list[0].next_url
+            self.render_book_list(explore_list)
+
+    def init_sources_list(self) -> None:
+        json_source_lists = load_json("novel_sources.json")
+        if not json_source_lists:
+            return
+        self.source_list = json_source_lists
+        self.list.clear()
+        for json_source in json_source_lists:
+            source = RuleSource.from_json(json_source)
+            source_item = QListWidgetItem(source.book_source_name)
+            source_item.setData(Qt.ItemDataRole.UserRole, source)
+            self.list.addItem(source_item)
+
+    def on_sources_list_item_clicked(self, item) -> None:
+        self.category.clear()
+        source: DataSource = item.data(Qt.ItemDataRole.UserRole)
+        if source is None:
+            return
+        self.current_rule_source = source
+        self.current_rule_category = self.current_rule_source.rule_category
+        self.current_rule_explore = self.current_rule_source.rule_explore
+        signalBus.wv_url.emit(WebviewType.CATEGORY, self.current_rule_category.url)
 
     def on_category_item_clicked(self, item) -> None:
-        print(item.text())
-        url = item.data(Qt.ItemDataRole.UserRole)
-        book_source_url = item.data(Qt.ItemDataRole.UserRole + 1)
-        print(url)
-        print(book_source_url)
-        self.render_book_list(url)
+        category: DataCategory = item.data(Qt.ItemDataRole.UserRole)
+        url = category.category_url
+        book_source_url = self.current_rule_source.book_source_url
+        if url.startswith("http"):
+            final_url = url
+        else:
+            final_url = urljoin(book_source_url, url)
+        signalBus.wv_url.emit(WebviewType.EXPLORE, final_url)
+        self.book_page_number = 1
 
     def clear_layout(self, layout: QLayout):
         if layout is not None:
@@ -121,17 +104,41 @@ class NovelList(Ui_NovelExplore, QWidget):
                 item = layout.takeAt(0)
                 widget = item.widget()
                 if widget:
-                    widget.deleteLater()  # 异步删除小部件
+                    widget.deleteLater()
                 else:
                     layout.removeItem(item)
                     if item.layout():
                         self.clear_layout(item.layout())
 
-    def render_book_list(self, data) -> None:
+    def render_book_list(self, data_list: List[DataExplore]):
         self.clear_layout(self.qvl_list)
         self.qvl_list.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.qvl_list.setSpacing(8)
         self.book_footer.show()
-        for item in range(21):
-            book = BookCard()
+        self.lb_page.setText(f'第 {self.book_page_number} 页')
+        for book in data_list:
+            book = BookCard(parent=self, book_data=book, source=self.current_rule_source)
             self.qvl_list.addWidget(book)
+        self.book_list.verticalScrollBar().setValue(0)
+
+    def on_prev_clicked(self):
+        if self.book_page_number == 1:
+            return
+        self.book_page_number -= 1
+        self.lb_page.setText(f'第 {self.book_page_number} 页')
+        if self.prev_url.startswith("http"):
+            final_url = self.prev_url
+        else:
+            book_source_url = self.current_rule_source.book_source_url
+            final_url = urljoin(book_source_url, self.prev_url)
+        signalBus.wv_url.emit(WebviewType.EXPLORE, final_url)
+
+    def on_next_clicked(self):
+        self.book_page_number += 1
+        self.lb_page.setText(f'第 {self.book_page_number} 页')
+        if self.next_url.startswith("http"):
+            final_url = self.next_url
+        else:
+            book_source_url = self.current_rule_source.book_source_url
+            final_url = urljoin(book_source_url, self.next_url)
+        signalBus.wv_url.emit(WebviewType.EXPLORE, final_url)

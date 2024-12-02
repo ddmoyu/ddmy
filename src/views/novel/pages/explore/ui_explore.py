@@ -79,10 +79,10 @@ class Ui_NovelExplore(object):
 
         self.gridLayout_3.addWidget(self.btn_prev, 2, 3, 1, 1)
 
-        self.lb_total = BodyLabel(self.book_footer)
-        self.lb_total.setObjectName(u"lb_total")
+        self.lb_page = BodyLabel(self.book_footer)
+        self.lb_page.setObjectName(u"lb_page")
 
-        self.gridLayout_3.addWidget(self.lb_total, 2, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.lb_page, 2, 0, 1, 1)
 
 
         self.gridLayout.addWidget(self.book_footer, 3, 2, 1, 1)
@@ -116,6 +116,6 @@ class Ui_NovelExplore(object):
         NovelExplore.setWindowTitle(QCoreApplication.translate("NovelExplore", u"Form", None))
         self.btn_next.setText("")
         self.btn_prev.setText("")
-        self.lb_total.setText(QCoreApplication.translate("NovelExplore", u"\u7b2c 1 \u9875", None))
+        self.lb_page.setText(QCoreApplication.translate("NovelExplore", u"\u7b2c 1 \u9875", None))
     # retranslateUi
 
