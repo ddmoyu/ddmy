@@ -1,0 +1,57 @@
+[
+    {
+        "bookSourceGroup": "18+",
+        "bookSourceName": "66人小说",
+        "bookSourceUrl": "https://www.66story.com/",
+        "enabled": true,
+        "enabledExplore": true,
+        "lastUpdateTime": 1732800048125,
+        "ruleBookInfo": {
+            "author": "@css.story-detail__info .author > a::text",
+            "coverUrl": "@css.story-detail__info .cover > img::attr(src)",
+            "intro": "@css.story-detail__info .desc > span::text",
+            "lastChapter": "@css.story-detail .notice::text",
+            "name": "@css.story-detail__info .title > h1::text",
+            "wordCount": "@css.story-detail__info .container--response > dl > dt:nth-child(1)::text"
+        },
+        "ruleContent": {
+            "content": "@css.story-read .read-container .content::text",
+            "nextContentUrl": ""
+        },
+        "ruleCategory": {
+            "url": "https://www.66story.com/index.php/book/category/",
+            "categoryList": "@css.j-filter-type .type-list .j-filter-item",
+            "categoryName": "@css.j-filter-item a::text",
+            "categoryUrl": "@css.j-filter-item a::attr(href)"
+        },
+        "ruleExplore": {
+            "bookList": "@css.list-wrapper .item",
+            "author": "@css.info .multi::text",
+            "name": "@css.info .title a::text",
+            "intro": "@css.info .desc::text",
+            "kind": "@css.info .multi::text",
+            "lastChapter": "",
+            "updateTime": "",
+            "bookUrl": "@css.info .title > a::attr(href)",
+            "coverUrl": "@css.cover-wrapper .cover::attr(data-src)",
+            "wordCount": "",
+            "prevUrl": "@css.story-category__pagination .prev::attr(href)", 
+            "nextUrl": "@css.story-category__pagination .next::attr(href)"
+        },
+        "ruleSearch": {
+            "bookList": "@css.story-search__container-main .j-item",
+            "author": "@css.item-info .item-info__multi::text",
+            "bookUrl": "@css.item-cover::attr(href)",
+            "coverUrl": "@css.item-cover > img::attr(src)",
+            "kind": "",
+            "lastChapter": "",
+            "name": "@css.item-item__header .title::text"
+        },
+        "ruleToc": {
+            "chapterList": "@css.story-detail__container .item",
+            "chapterName": "@css.j-catalog-link::text",
+            "chapterUrl": "@css.j-catalog-link::attr(href)",
+            "nextTocUrl": ""
+        }
+    }
+]

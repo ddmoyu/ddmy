@@ -1,15 +1,17 @@
 from typing import Optional, List
 from urllib.parse import urljoin
+
 from qfluentwidgets import FluentIcon
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QLayout, QListWidgetItem
 
 from src.common.tools import load_json
 from src.components.book_card import BookCard
+from src.components.loading import LoadingOverlay
 from src.common.signal_bus import signalBus, WebviewType
 
 from src.views.novel.pages.explore.ui_explore import Ui_NovelExplore
-from src.views.novel.utils.u_explore import get_category_list, get_explore_list
+from src.views.novel.utils.u_explore import get_category_list, get_explore_list 
 from src.views.novel.data_class.category import RuleCategory, DataCategory
 from src.views.novel.data_class.explore import RuleExplore, DataExplore
 from src.views.novel.data_class.source import RuleSource, DataSource
@@ -29,6 +31,8 @@ class NovelList(Ui_NovelExplore, QWidget):
         self.book_page_number = 1
         self.prev_url = ""
         self.next_url = ""
+        self.category_loading = LoadingOverlay(self.category)
+        self.explore_loading = LoadingOverlay(self.book_list)
 
         self.init_ui()
         self.init_signal()
@@ -57,6 +61,7 @@ class NovelList(Ui_NovelExplore, QWidget):
                 category_item.setData(Qt.ItemDataRole.UserRole, category)
                 self.category.addItem(category_item)
             self.category.scrollToTop()
+            self.category_loading.hide_loading()
         elif wv_type == WebviewType.EXPLORE:
             explore_list = get_explore_list(html, self.current_rule_explore)
             if not explore_list:
@@ -64,6 +69,7 @@ class NovelList(Ui_NovelExplore, QWidget):
             self.prev_url = explore_list[0].prev_url
             self.next_url = explore_list[0].next_url
             self.render_book_list(explore_list)
+            self.explore_loading.hide_loading()
 
     def init_sources_list(self) -> None:
         json_source_lists = load_json("novel_sources.json")
@@ -73,11 +79,14 @@ class NovelList(Ui_NovelExplore, QWidget):
         self.list.clear()
         for json_source in json_source_lists:
             source = RuleSource.from_json(json_source)
+            if not source.enabled:
+                continue
             source_item = QListWidgetItem(source.book_source_name)
             source_item.setData(Qt.ItemDataRole.UserRole, source)
             self.list.addItem(source_item)
 
     def on_sources_list_item_clicked(self, item) -> None:
+        self.category_loading.show_loading()
         self.category.clear()
         source: DataSource = item.data(Qt.ItemDataRole.UserRole)
         if source is None:
@@ -88,6 +97,7 @@ class NovelList(Ui_NovelExplore, QWidget):
         signalBus.wv_url.emit(WebviewType.CATEGORY, self.current_rule_category.url)
 
     def on_category_item_clicked(self, item) -> None:
+        self.explore_loading.show_loading()
         category: DataCategory = item.data(Qt.ItemDataRole.UserRole)
         url = category.category_url
         book_source_url = self.current_rule_source.book_source_url
@@ -131,6 +141,7 @@ class NovelList(Ui_NovelExplore, QWidget):
         else:
             book_source_url = self.current_rule_source.book_source_url
             final_url = urljoin(book_source_url, self.prev_url)
+        self.explore_loading.show_loading()
         signalBus.wv_url.emit(WebviewType.EXPLORE, final_url)
 
     def on_next_clicked(self):
@@ -141,4 +152,5 @@ class NovelList(Ui_NovelExplore, QWidget):
         else:
             book_source_url = self.current_rule_source.book_source_url
             final_url = urljoin(book_source_url, self.next_url)
+        self.explore_loading.show_loading()
         signalBus.wv_url.emit(WebviewType.EXPLORE, final_url)

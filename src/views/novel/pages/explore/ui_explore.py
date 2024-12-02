@@ -30,35 +30,6 @@ class Ui_NovelExplore(object):
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setVerticalSpacing(0)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.category = ListWidget(NovelExplore)
-        self.category.setObjectName(u"category")
-        self.category.setMinimumSize(QSize(140, 0))
-        self.category.setMaximumSize(QSize(150, 16777215))
-
-        self.gridLayout.addWidget(self.category, 1, 1, 3, 1)
-
-        self.widget = QWidget(NovelExplore)
-        self.widget.setObjectName(u"widget")
-        self.widget.setMinimumSize(QSize(200, 0))
-        self.widget.setMaximumSize(QSize(220, 16777215))
-        self.gridLayout_2 = QGridLayout(self.widget)
-        self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.list = ListWidget(self.widget)
-        self.list.setObjectName(u"list")
-        self.list.setMinimumSize(QSize(0, 0))
-        self.list.setMaximumSize(QSize(16777215, 16777215))
-
-        self.gridLayout_2.addWidget(self.list, 1, 0, 1, 1)
-
-        self.le_search = SearchLineEdit(self.widget)
-        self.le_search.setObjectName(u"le_search")
-
-        self.gridLayout_2.addWidget(self.le_search, 0, 0, 1, 1)
-
-
-        self.gridLayout.addWidget(self.widget, 1, 0, 3, 1)
-
         self.book_footer = QWidget(NovelExplore)
         self.book_footer.setObjectName(u"book_footer")
         self.book_footer.setMaximumSize(QSize(16777215, 50))
@@ -105,6 +76,35 @@ class Ui_NovelExplore(object):
         self.book_list.setWidget(self.scrollAreaWidgetContents)
 
         self.gridLayout.addWidget(self.book_list, 1, 2, 2, 1)
+
+        self.category = ListWidget(NovelExplore)
+        self.category.setObjectName(u"category")
+        self.category.setMinimumSize(QSize(140, 0))
+        self.category.setMaximumSize(QSize(150, 16777215))
+
+        self.gridLayout.addWidget(self.category, 1, 1, 3, 1)
+
+        self.widget = QWidget(NovelExplore)
+        self.widget.setObjectName(u"widget")
+        self.widget.setMinimumSize(QSize(200, 0))
+        self.widget.setMaximumSize(QSize(220, 16777215))
+        self.gridLayout_2 = QGridLayout(self.widget)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.list = ListWidget(self.widget)
+        self.list.setObjectName(u"list")
+        self.list.setMinimumSize(QSize(0, 0))
+        self.list.setMaximumSize(QSize(16777215, 16777215))
+
+        self.gridLayout_2.addWidget(self.list, 1, 0, 1, 1)
+
+        self.le_search = SearchLineEdit(self.widget)
+        self.le_search.setObjectName(u"le_search")
+
+        self.gridLayout_2.addWidget(self.le_search, 0, 0, 1, 1)
+
+
+        self.gridLayout.addWidget(self.widget, 1, 0, 3, 1)
 
 
         self.retranslateUi(NovelExplore)
