@@ -1,17 +1,20 @@
 import os
+import tempfile
 from PySide6.QtWidgets import QGraphicsView, QGraphicsScene
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import QUrl, Qt
 from PySide6.QtNetwork import QNetworkAccessManager, QNetworkRequest, QNetworkReply
 
 class NetworkImageViewer(QGraphicsView):
-    def __init__(self, parent=None, cache_dir="image_cache"):
+    def __init__(self, parent=None):
         super().__init__(parent)
         self.scene = QGraphicsScene(self)
         self.setScene(self.scene)
         self.network_manager = QNetworkAccessManager(self)
-        self.cache_dir = cache_dir
-        os.makedirs(cache_dir, exist_ok=True)
+
+        # 使用系统临时目录作为缓存目录
+        self.cache_dir = os.path.join(tempfile.gettempdir(), 'network_image_cache')
+        os.makedirs(self.cache_dir, exist_ok=True)
 
     def load_image(self, image_path):
         # 判断是否为网络图片
@@ -32,7 +35,10 @@ class NetworkImageViewer(QGraphicsView):
             print(f"Local image not found: {abs_path}")
 
     def load_network_image(self, url):
-        cache_path = os.path.join(self.cache_dir, url.split("/")[-1])
+        # 使用URL的最后部分作为文件名，并进行URL编码处理
+        import urllib.parse
+        filename = urllib.parse.quote(url.split("/")[-1], safe='')
+        cache_path = os.path.join(self.cache_dir, filename)
 
         if os.path.exists(cache_path):
             # 如果缓存存在,直接从缓存加载

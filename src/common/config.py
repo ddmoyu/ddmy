@@ -1,77 +1,110 @@
+# -*- coding: utf-8 -*-
+
 import os
-import tempfile
-from PySide6.QtWidgets import QGraphicsView, QGraphicsScene
-from PySide6.QtGui import QPixmap
-from PySide6.QtCore import QUrl, Qt
-from PySide6.QtNetwork import QNetworkAccessManager, QNetworkRequest, QNetworkReply
+import sys
+import json
+from typing import Any, Dict, List, Optional
+from PySide6.QtCore import QObject, Signal, Slot
 
-class NetworkImageViewer(QGraphicsView):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.scene = QGraphicsScene(self)
-        self.setScene(self.scene)
-        self.network_manager = QNetworkAccessManager(self)
+class Config(QObject):
+    _instance: Optional['Config'] = None
+    _config: Dict[str, Any] = {}
 
-        # 使用系统临时目录作为缓存目录
-        self.cache_dir = os.path.join(tempfile.gettempdir(), 'network_image_cache')
-        os.makedirs(self.cache_dir, exist_ok=True)
+    configChanged = Signal(str, Any)
 
-    def load_image(self, image_path):
-        # 判断是否为网络图片
-        if image_path.startswith(('http://', 'https://')):
-            self.load_network_image(image_path)
+    def __new__(cls) -> 'Config':
+        if cls._instance is None:
+            cls._instance = super(Config, cls).__new__(cls)
+            cls._instance._initialize()
+        return cls._instance
+
+    def _initialize(self) -> None:
+        super().__init__()
+        if getattr(sys, 'frozen', False):
+            self.app_dir = os.path.dirname(sys.executable)
         else:
-            # 处理本地图片（相对路径或绝对路径）
-            self.load_local_image(image_path)
+            self.app_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
 
-    def load_local_image(self, image_path):
-        # 将相对路径转换为绝对路径
-        abs_path = os.path.abspath(image_path)
+        self.app_config_file = os.path.join(self.app_dir, 'config.json')
+        self.local_config_dir = os.path.join(os.getenv('LOCALAPPDATA', ''), 'jbs')
+        self.local_config_file = os.path.join(self.local_config_dir, 'config.json')
 
-        if os.path.exists(abs_path):
-            pixmap = QPixmap(abs_path)
-            self.display_image(pixmap)
-        else:
-            print(f"Local image not found: {abs_path}")
+        self._load_config()
 
-    def load_network_image(self, url):
-        # 使用URL的最后部分作为文件名，并进行URL编码处理
-        import urllib.parse
-        filename = urllib.parse.quote(url.split("/")[-1], safe='')
-        cache_path = os.path.join(self.cache_dir, filename)
+    def _load_config(self) -> None:
+        for config_path in [self.local_config_file, self.app_config_file]:
+            if os.path.exists(config_path):
+                try:
+                    with open(config_path, 'r', encoding='utf-8') as f:
+                        self._config = json.load(f)
+                        self.active_config_file = config_path
+                        return
+                except (json.JSONDecodeError, IOError) as e:
+                    print(f"Error loading {config_path}: {e}")
 
-        if os.path.exists(cache_path):
-            # 如果缓存存在,直接从缓存加载
-            self.load_from_cache(cache_path)
-        else:
-            # 否则从网络下载
-            request = QNetworkRequest(QUrl(url))
-            reply = self.network_manager.get(request)
-            reply.finished.connect(lambda: self.on_image_loaded(reply, cache_path))
+        self.active_config_file = self.local_config_file
+        self._create_default_config()
 
-    def load_from_cache(self, cache_path):
-        pixmap = QPixmap(cache_path)
-        self.display_image(pixmap)
+    def _create_default_config(self) -> None:
+        """创建默认配置文件。"""
+        self._config = {
+            "version": "",
+            "settings": {
+                "theme": "auto"
+            }
+        }
 
-    def on_image_loaded(self, reply, cache_path):
-        if reply.error() == QNetworkReply.NetworkError.NoError:
-            data = reply.readAll()
-            pixmap = QPixmap()
-            pixmap.loadFromData(data)
+        self.save()
 
-            # 保存到缓存
-            pixmap.save(cache_path)
+    @Slot(str, result=Any)
+    def get(self, *keys: str) -> Any:
+        """获取配置值。"""
+        value = self._config
+        for key in keys:
+            if not isinstance(value, dict):
+                return None
+            value = value.get(key)
+            if value is None:
+                return None
+        return value
 
-            self.display_image(pixmap)
-        else:
-            print(f"Error loading image: {reply.errorString()}")
-        reply.deleteLater()
+    @Slot(*['str'] * 5)  # 这里我们假设最多支持5层嵌套
+    def set(self, *args: Any) -> None:
+        if len(args) < 2:
+            raise ValueError("At least one key and a value are required")
 
-    def display_image(self, pixmap):
-        self.scene.clear()
-        self.scene.addPixmap(pixmap)
-        self.fitInView(self.scene.sceneRect(), Qt.AspectRatioMode.KeepAspectRatio)
+        keys = args[:-1]
+        value = args[-1]
 
-    def resizeEvent(self, event):
-        super().resizeEvent(event)
-        self.fitInView(self.scene.sceneRect(), Qt.AspectRatioMode.KeepAspectRatio)
+        self._set_config_value(keys, value)
+        self.save()
+
+    def _set_config_value(self, keys: List[str], value: Any) -> None:
+        config = self._config
+        for key in keys[:-1]:
+            config = config.setdefault(key, {})
+
+        if config.get(keys[-1]) != value:
+            config[keys[-1]] = value
+            self._emit_config_changed(keys, value)
+
+    def _emit_config_changed(self, keys: List[str], value: Any) -> None:
+        self.configChanged.emit('.'.join(keys), value)
+
+    @Slot()
+    def save(self) -> None:
+        os.makedirs(os.path.dirname(self.active_config_file), exist_ok=True)
+
+        try:
+            with open(self.active_config_file, 'w', encoding='utf-8') as f:
+                json.dump(self._config, f, indent=4)
+        except IOError as e:
+            raise IOError(f"Failed to save config file: {e}")
+
+    @property
+    def all(self) -> Dict[str, Any]:
+        return self._config.copy()
+
+    @property
+    def config_path(self) -> str:
+        return self.active_config_file
