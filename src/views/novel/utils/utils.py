@@ -3,7 +3,6 @@ import json
 import httpx
 from parsel import Selector
 from urllib.parse import urljoin
-from src.views.novel.utils.jsoup_to_parsel import apply_advanced_rules
 
 from src.common.tools import save_json, load_json
 from src.common.request import fetch_json_async
@@ -156,9 +155,9 @@ async def fetch_search_test():
         "",
         "盘龙",
     )
-    print(item)
-    book_list = apply_advanced_rules(item, "class.book.all")
-    print(book_list)
+    # print(item)
+    # book_list = apply_advanced_rules(item, "class.book.all")
+    # print(book_list)
     # if not book_list:
     #     return []
     #
