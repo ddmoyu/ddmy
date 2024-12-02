@@ -15,6 +15,7 @@ class NovelContent(Ui_NovelContent, QWidget):
 
     def init_ui(self):
         self.wgt_style.hide()
+        self.wgt_toc.hide()
         self.btn_chapter.setIcon(FluentIcon.MENU)
         self.btn_view.setIcon(FluentIcon.VIEW)
         self.btn_style.setIcon(FluentIcon.SETTING)
@@ -24,17 +25,24 @@ class NovelContent(Ui_NovelContent, QWidget):
     def init_signal(self):
         self.btn_view.clicked.connect(self.on_btn_view_handler)
         self.btn_style.clicked.connect(self.on_btn_style_handler)
-        self.pushButton_3.clicked.connect(
-            lambda: signalBus.wv_navigate.emit(
-                "https://www.zhongyi6.com/chapter/read/1734/36970"
-            )
-        )
-        signalBus.wv_get_html.connect(self.render_content)
+        # self.pushButton_3.clicked.connect(
+        #     lambda: signalBus.wv_navigate.emit(
+        #         "https://www.zhongyi6.com/chapter/read/1734/36970"
+        #     )
+        # )
+        # signalBus.wv_get_html.connect(self.render_content)
+        signalBus.novel_bool_url.connect(self.get_book_info)
+
+    def get_book_info(self, book_url: str):
+        print('book_url', book_url)
+        pass
 
     def on_btn_view_handler(self):
-        self.frame_top.hide()
-        self.frame_footer.hide()
-        self.wgt_style.hide()
+        # self.frame_top.hide()
+        # self.frame_footer.hide()
+        self.wgt_style.show()
+        self.wgt_toc.show()
+        pass
 
     def on_btn_style_handler(self):
         if self.wgt_style.isHidden():

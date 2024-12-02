@@ -17,12 +17,12 @@ class SignalBus(QObject):
 
     # webview signal
     wv_load_finished = Signal(bool)
-
     wv_url = Signal(WebviewType, str)
     wv_html = Signal(WebviewType, str)
 
-    wv_navigate = Signal(str)
-    wv_get_html = Signal(str)
+    # novel signal
+    novel_change_page = Signal(str)
+    novel_bool_url = Signal(str)
 
 
 signalBus = SignalBus()

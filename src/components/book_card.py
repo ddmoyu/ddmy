@@ -8,7 +8,7 @@ Email: daydaymoyu@gmail.com
 Date: 2024-12-02
 """
 from typing import Any
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QLabel, QGridLayout, QWidget
 from qfluentwidgets import (
     CardWidget,
@@ -18,12 +18,11 @@ from qfluentwidgets import (
     PushButton,
     TransparentToolButton,
 )
+from src.common.signal_bus import signalBus
 from src.components.network_image_viewer import NetworkImageViewer
 
 
 class BookCard(CardWidget):
-    book_clicked = Signal(dict)
-
     def __init__(self, parent=None, book_data: Any=None, source: Any = None) -> None:
         super().__init__(parent)
         self.book_data = book_data
@@ -71,20 +70,29 @@ class BookCard(CardWidget):
 
         grid_form_layout.addWidget(widget_body, 0, 0, 1, 1)
 
-        read_btn = PushButton("阅读", self)
+        self.read_btn = PushButton("阅读", self)
         more_btn = TransparentToolButton(FluentIcon.MORE, self)
         more_btn.setFixedSize(32, 32)
         wgt_btn = QWidget(widget_body)
         wgt_btn.setMaximumWidth(140)
         grid_btn = QGridLayout(wgt_btn)
-        grid_btn.addWidget(read_btn, 0, 0, 1, 1)
+        grid_btn.addWidget(self.read_btn, 0, 0, 1, 1)
         grid_btn.addWidget(more_btn, 0, 1, 1, 1)
 
         grid_form_layout.addWidget(wgt_btn, 0, 1, 1, 1)
         self.setFixedHeight(150)
 
+        self.init_signal()
+
+    def init_signal(self):
+        self.read_btn.clicked.connect(self.on_read_triggered)
+
     def on_read_triggered(self):
         print("on_read_action_triggered")
+        signalBus.novel_change_page.emit("content")
+        book_url = getattr(self.book_data, 'book_url')
+        if book_url:
+            signalBus.novel_bool_url.emit(book_url)
 
     def on_detail_triggered(self):
         print("on_detail_action_triggered")

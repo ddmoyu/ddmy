@@ -1,3 +1,4 @@
+from src.common.signal_bus import signalBus
 from src.views.novel.ui_novel import Ui_Novel
 from src.layout.layout import LayoutInterface
 from src.views.novel.pages.search.search import NovelSearch
@@ -36,6 +37,24 @@ class NovelInterface(LayoutInterface):
         self.content = None
 
         self.show_page(NovelPage.SEARCH)
+        self.init_signal()
+
+    def init_signal(self):
+        signalBus.novel_change_page.connect(self.change_page)
+
+    def change_page(self, page):
+        if page == "bookshelf":
+            self.show_page(NovelPage.BOOKSHELF)
+        elif page == "list":
+            self.show_page(NovelPage.LIST)
+        elif page == "search":
+            self.show_page(NovelPage.SEARCH)
+        elif page == "manager":
+            self.show_page(NovelPage.MANAGER)
+        elif page == "detail":
+            self.show_page(NovelPage.DETAIL)
+        elif page == "content":
+            self.show_page(NovelPage.CONTENT)
 
     def initTopMenu(self):
         pivot = SegmentedWidget()

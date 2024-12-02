@@ -55,6 +55,12 @@
           <height>0</height>
          </size>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>120</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="frameShape">
          <enum>QFrame::Shape::StyledPanel</enum>
         </property>
@@ -129,11 +135,17 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QFrame" name="wgt_style_2">
+       <widget class="QFrame" name="wgt_toc">
         <property name="minimumSize">
          <size>
           <width>220</width>
           <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>120</width>
+          <height>16777215</height>
          </size>
         </property>
         <property name="frameShape">
@@ -144,13 +156,7 @@
         </property>
         <layout class="QGridLayout" name="gridLayout_6">
          <item row="0" column="0">
-          <widget class="ListWidget" name="treeWidget">
-           <column>
-            <property name="text">
-             <string notr="true">1</string>
-            </property>
-           </column>
-          </widget>
+          <widget class="ListWidget" name="lw_toc"/>
          </item>
         </layout>
        </widget>
@@ -164,10 +170,17 @@
          <enum>QFrame::Shadow::Plain</enum>
         </property>
         <layout class="QGridLayout" name="gridLayout_4">
-         <item row="0" column="3">
-          <widget class="QPushButton" name="pushButton_3">
+         <item row="0" column="4">
+          <widget class="TransparentToolButton" name="btn_style">
            <property name="text">
-            <string>PushButton</string>
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="TransparentToolButton" name="btn_view">
+           <property name="text">
+            <string/>
            </property>
           </widget>
          </item>
@@ -178,8 +191,8 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="5">
-          <widget class="TransparentToolButton" name="btn_style">
+         <item row="0" column="0">
+          <widget class="TransparentToolButton" name="btn_chapter">
            <property name="text">
             <string/>
            </property>
@@ -197,20 +210,6 @@
             </size>
            </property>
           </spacer>
-         </item>
-         <item row="0" column="4">
-          <widget class="TransparentToolButton" name="btn_view">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="TransparentToolButton" name="btn_chapter">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
          </item>
         </layout>
        </widget>
