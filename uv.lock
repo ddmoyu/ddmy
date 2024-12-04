@@ -83,7 +83,7 @@ requires-dist = [
     { name = "jsonpath-ng", specifier = ">=1.7.0" },
     { name = "parsel", specifier = ">=1.9.1" },
     { name = "pyinstaller", specifier = ">=6.11.1" },
-    { name = "pyside6-fluent-widgets", extras = ["full"], specifier = ">=1.7.1" },
+    { name = "pyside6-fluent-widgets", extras = ["full"], specifier = ">=1.7.2" },
     { name = "qasync", specifier = ">=0.27.1" },
     { name = "setuptools", specifier = ">=75.5.0" },
     { name = "webviewpy", specifier = ">=1.4.0" },
@@ -2804,16 +2804,16 @@ wheels = [
 
 [[package]]
 name = "pyside6-fluent-widgets"
-version = "1.7.1"
+version = "1.7.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "darkdetect" },
     { name = "pyside6" },
     { name = "pysidesix-frameless-window" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/80/be/655bce565d9733acfc7f8389f9ab0484be539ef21d7a7dac83d018e712b4/pyside6_fluent_widgets-1.7.1.tar.gz", hash = "sha256:012524f91ec4df06ee377c73c30e61496274cd0ea53ae169f3eede9ee80e2473", size = 1430241 }
+sdist = { url = "https://files.pythonhosted.org/packages/86/dc/fe5b8d3e6cd5b197901c7b884da2303e53353511c01ae72049150c1bc8d9/pyside6_fluent_widgets-1.7.2.tar.gz", hash = "sha256:d3dfa92ba9c3296214114c9f490129b386a7417dc50bbd0775da13f30a2d38ef", size = 1432025 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e5/51/4a12b79a51a6470cc87f9584a160e8f9fec4d348572c130fe084ed070a9e/PySide6_Fluent_Widgets-1.7.1-py3-none-any.whl", hash = "sha256:e55c9440daa5b28dcb3b28509c297d5e310a93b152c86076f77b93c49812ab16", size = 1522029 },
+    { url = "https://files.pythonhosted.org/packages/07/1e/8ce3cde48b30a6aedc96bbb4f289fb32f6e411b279eaec42764a4d5e6952/PySide6_Fluent_Widgets-1.7.2-py3-none-any.whl", hash = "sha256:08b8522389a8c9971e422412a7132c57b5cad7345446e53baaed73191ae422a2", size = 1523777 },
 ]
 
 [package.optional-dependencies]

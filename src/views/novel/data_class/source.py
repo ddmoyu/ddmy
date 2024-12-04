@@ -3,6 +3,8 @@ from dataclasses import dataclass, asdict
 from typing import Optional, Dict, Any, Union
 from src.views.novel.data_class.category import RuleCategory
 from src.views.novel.data_class.explore import RuleExplore
+from src.views.novel.data_class.toc import RuleToc
+
 
 @dataclass
 class BaseSource:
@@ -19,9 +21,10 @@ class BaseSource:
     rule_category: Optional[RuleCategory] = None
     rule_explore: Optional[RuleExplore] = None
     rule_search: Optional[str] = None
-    rule_toc: Optional[str] = None
+    rule_toc: Optional[RuleToc] = None
 
     search_url: Optional[str] = None
+
 
 @dataclass
 class RuleSource(BaseSource):
@@ -33,14 +36,19 @@ class RuleSource(BaseSource):
             json_obj = json_data
         converted_data = {}
         for key, value in json_obj.items():
-            snake_key = ''.join(['_' + char.lower() if char.isupper() else char for char in key]).lstrip('_')
-            if snake_key == 'rule_category' and isinstance(value, dict):
+            snake_key = "".join(
+                ["_" + char.lower() if char.isupper() else char for char in key]
+            ).lstrip("_")
+            if snake_key == "rule_category" and isinstance(value, dict):
                 converted_data[snake_key] = RuleCategory.from_json(value)
-            elif snake_key == 'rule_explore' and isinstance(value, dict):
+            elif snake_key == "rule_explore" and isinstance(value, dict):
                 converted_data[snake_key] = RuleExplore.from_json(value)
+            elif snake_key == "rule_toc" and isinstance(value, dict):
+                converted_data[snake_key] = RuleToc.from_json(value)
             else:
                 converted_data[snake_key] = value
         return cls(**converted_data)
+
 
 @dataclass
 class DataSource(BaseSource):
@@ -49,11 +57,13 @@ class DataSource(BaseSource):
         # 将蛇形命名转换为驼峰命名
         data = {}
         for key, value in asdict(self).items():
-            components = key.split('_')
-            camel_key = components[0] + ''.join(x.title() for x in components[1:])
-            if key == 'rule_category' and isinstance(value, RuleCategory):
+            components = key.split("_")
+            camel_key = components[0] + "".join(x.title() for x in components[1:])
+            if key == "rule_category" and isinstance(value, RuleCategory):
                 data[camel_key] = asdict(value)
-            elif key == 'rule_explore' and isinstance(value, RuleExplore):
+            elif key == "rule_explore" and isinstance(value, RuleExplore):
+                data[camel_key] = asdict(value)
+            elif key == "rule_toc" and isinstance(value, RuleToc):
                 data[camel_key] = asdict(value)
             else:
                 data[camel_key] = value
@@ -64,9 +74,11 @@ class DataSource(BaseSource):
         """将数据转换为字典"""
         data = {}
         for key, value in asdict(self).items():
-            if key == 'rule_category' and isinstance(value, RuleCategory):
+            if key == "rule_category" and isinstance(value, RuleCategory):
                 data[key] = asdict(value)
-            elif key == 'rule_explore' and isinstance(value, RuleExplore):
+            elif key == "rule_explore" and isinstance(value, RuleExplore):
+                data[key] = asdict(value)
+            elif key == "rule_toc" and isinstance(value, RuleToc):
                 data[key] = asdict(value)
             else:
                 data[key] = value

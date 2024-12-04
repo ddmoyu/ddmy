@@ -1,12 +1,14 @@
 # coding: utf-8
 from PySide6.QtCore import QObject, Signal
 from enum import Enum
+from src.views.novel.data_class.source import RuleSource
 
 
 class WebviewType(Enum):
     URL = "default"
     CATEGORY = "category"
     EXPLORE = "explore"
+    TOC = "toc"
 
 
 class SignalBus(QObject):
@@ -23,6 +25,7 @@ class SignalBus(QObject):
     # novel signal
     novel_change_page = Signal(str)
     novel_bool_url = Signal(str)
+    novel_rule_source = Signal(RuleSource)
 
 
 signalBus = SignalBus()

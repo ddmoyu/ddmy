@@ -4,6 +4,7 @@ from typing import Any, Type
 from parsel import Selector
 from jsonpath_ng import parse as jsonpath_parse
 
+
 # Base class for parsing strategies
 class BaseParseStrategy:
     @staticmethod
@@ -18,6 +19,7 @@ class BaseParseStrategy:
         :return: Parsed result
         """
         raise NotImplementedError("Subclasses must implement the parse method")
+
 
 # CSS Parsing strategy
 class CSSParseStrategy(BaseParseStrategy):
@@ -34,10 +36,13 @@ class CSSParseStrategy(BaseParseStrategy):
                 "getall": selector.css(css_rule).getall,
             }
             result = method_map.get(method, selector.css(css_rule).get)()
+            if isinstance(result, str):
+                result = result.strip()
             return result if result else None
         except Exception as e:
             logging.error(f"Error while parsing CSS: {e} with rule: {rule}")
             return None
+
 
 # JMESPath parsing strategy
 class JMESPathParseStrategy(BaseParseStrategy):
@@ -54,10 +59,13 @@ class JMESPathParseStrategy(BaseParseStrategy):
                 "getall": selector.jmespath(jmespath_rule).getall,
             }
             result = method_map.get(method, selector.jmespath(jmespath_rule).get)()
+            # if isinstance(result, str):
+            #     result = result.strip()
             return result if result else None
         except Exception as e:
             logging.error(f"Error while parsing JMESPath: {e} with rule: {rule}")
             return None
+
 
 # JSON parsing strategy using JSONPath
 class JSONParseStrategy(BaseParseStrategy):
@@ -88,6 +96,7 @@ class JSONParseStrategy(BaseParseStrategy):
             logging.error(f"Error while parsing JSONPath: {e} for rule: {rule}")
         return None
 
+
 # JS parsing strategy (currently not implemented)
 class JSParseStrategy(BaseParseStrategy):
     @staticmethod
@@ -97,6 +106,7 @@ class JSParseStrategy(BaseParseStrategy):
         """
         logging.warning(f"JS parsing strategy not implemented for rule: {rule}")
         return None
+
 
 # XPath parsing strategy
 class XPathParseStrategy(BaseParseStrategy):
@@ -117,6 +127,7 @@ class XPathParseStrategy(BaseParseStrategy):
         except Exception as e:
             logging.error(f"Error while parsing XPath: {e} with rule: {rule}")
             return None
+
 
 # ContentParser class using strategy pattern
 class ContentParser:
