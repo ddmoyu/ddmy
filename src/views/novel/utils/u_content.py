@@ -12,11 +12,11 @@ from typing import List
 
 from src.views.novel.data_class.content import RuleContent, DataContent
 from src.views.novel.data_class.toc import RuleToc, DataToc
-from src.views.novel.utils.utils import parse_toc_content_list, parse_content
+from src.views.novel.utils.utils import parse_content_list, parse_content
 
 
 def get_toc_list(html: str, rule: RuleToc) -> List[DataToc]:
-    return parse_toc_content_list(html, rule, DataToc)
+    return parse_content_list(html, rule, DataToc)
 
 
 def get_content(content: str, rule: RuleContent) -> DataContent:

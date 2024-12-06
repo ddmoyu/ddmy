@@ -8,7 +8,6 @@ Email: daydaymoyu@gmail.com
 Date: 2024-12-02
 """
 
-from typing import Any
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QLabel, QGridLayout, QWidget
 from qfluentwidgets import (
@@ -21,14 +20,18 @@ from qfluentwidgets import (
 )
 from src.common.signal_bus import signalBus
 from src.components.network_image_viewer import NetworkImageViewer
+from src.views.novel.data_class.explore import DataExplore
+from src.views.novel.data_class.source import RuleSource
 
 
 class BookCard(CardWidget):
-    def __init__(self, parent=None, book_data: Any = None, source: Any = None) -> None:
+    def __init__(
+        self, parent=None, data: DataExplore = None, source: RuleSource = None
+    ) -> None:
         super().__init__(parent)
-        self.book_data = book_data
+        self.data = data
         self.source = source
-        # print(book_data)
+        # print(data)
         self.setCursor(Qt.CursorShape.PointingHandCursor)
 
         grid_form_layout = QGridLayout(self)
@@ -37,7 +40,7 @@ class BookCard(CardWidget):
 
         cover_viewer = NetworkImageViewer(widget_body)
         cover_viewer.setFixedSize(90, 120)
-        cover_url = getattr(book_data, "cover_url", None)
+        cover_url = getattr(data, "cover_url", None)
         if cover_url:
             # if not cover_url.startswith("http"):
             #     source_url = source.get("source_url")
@@ -55,15 +58,15 @@ class BookCard(CardWidget):
         grid_body_layout.addWidget(wgt_detail, 0, 1, 1, 1)
 
         title_label = StrongBodyLabel("无", self)
-        if getattr(book_data, "name", None):
-            if len(getattr(book_data, "name")) > 25:
-                title_label.setText(f'{getattr(book_data, 'name')[:25]}...')
+        if getattr(data, "name", None):
+            if len(getattr(data, "name")) > 25:
+                title_label.setText(f'{getattr(data, 'name')[:25]}...')
             else:
-                title_label.setText(getattr(book_data, "name"))
+                title_label.setText(getattr(data, "name"))
         author_label = CaptionLabel("无", self)
-        if getattr(book_data, "author"):
-            author_label.setText(getattr(book_data, "author"))
-        intro_text = getattr(book_data, "intro", "")
+        if getattr(data, "author"):
+            author_label.setText(getattr(data, "author"))
+        intro_text = getattr(data, "intro", "")
         intro_label = QLabel(intro_text)
         intro_label.setWordWrap(True)
         grid_detail.addWidget(title_label, 0, 0, 1, 1)
@@ -92,10 +95,8 @@ class BookCard(CardWidget):
     def on_read_triggered(self):
         print("on_read_action_triggered")
         signalBus.novel_change_page.emit("content")
-        book_url = getattr(self.book_data, "book_url")
-        if book_url:
-            signalBus.novel_rule_source.emit(self.source)
-            signalBus.novel_bool_url.emit(book_url)
+        signalBus.novel_rule_source.emit(self.source)
+        signalBus.novel_bool_url.emit(self.data)
 
     def on_detail_triggered(self):
         print("on_detail_action_triggered")

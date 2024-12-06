@@ -2,6 +2,7 @@ from dataclasses import dataclass, asdict
 from typing import Optional, Dict, Any, Union
 import json
 
+
 @dataclass
 class BaseExplore:
     book_list: Optional[str] = None
@@ -14,8 +15,10 @@ class BaseExplore:
     book_url: Optional[str] = None
     cover_url: Optional[str] = None
     word_count: Optional[str] = None
+    toc_url: Optional[str] = None
     prev_url: Optional[str] = None
     next_url: Optional[str] = None
+
 
 @dataclass
 class RuleExplore(BaseExplore):
@@ -27,9 +30,12 @@ class RuleExplore(BaseExplore):
             json_obj = json_data
         converted_data = {}
         for key, value in json_obj.items():
-            snake_key = ''.join(['_' + char.lower() if char.isupper() else char for char in key]).lstrip('_')
+            snake_key = "".join(
+                ["_" + char.lower() if char.isupper() else char for char in key]
+            ).lstrip("_")
             converted_data[snake_key] = value
         return cls(**converted_data)
+
 
 @dataclass
 class DataExplore(BaseExplore):
@@ -38,8 +44,8 @@ class DataExplore(BaseExplore):
         # 将蛇形命名转换为驼峰命名
         data = {}
         for key, value in asdict(self).items():
-            components = key.split('_')
-            camel_key = components[0] + ''.join(x.title() for x in components[1:])
+            components = key.split("_")
+            camel_key = components[0] + "".join(x.title() for x in components[1:])
             data[camel_key] = value
         wrapped_data = {"data_explore": data}
         return json.dumps(wrapped_data, ensure_ascii=False, indent=2)

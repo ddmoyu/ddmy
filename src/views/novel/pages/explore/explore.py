@@ -11,7 +11,7 @@ from src.components.loading import LoadingOverlay
 from src.common.signal_bus import signalBus, WebviewType
 
 from src.views.novel.pages.explore.ui_explore import Ui_NovelExplore
-from src.views.novel.utils.u_explore import get_category_list, get_explore_list 
+from src.views.novel.utils.u_explore import get_category_list, get_explore_list
 from src.views.novel.data_class.category import RuleCategory, DataCategory
 from src.views.novel.data_class.explore import RuleExplore, DataExplore
 from src.views.novel.data_class.source import RuleSource, DataSource
@@ -125,9 +125,9 @@ class NovelList(Ui_NovelExplore, QWidget):
         self.qvl_list.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.qvl_list.setSpacing(8)
         self.book_footer.show()
-        self.lb_page.setText(f'第 {self.book_page_number} 页')
+        self.lb_page.setText(f"第 {self.book_page_number} 页")
         for book in data_list:
-            book = BookCard(parent=self, book_data=book, source=self.current_rule_source)
+            book = BookCard(parent=self, data=book, source=self.current_rule_source)
             self.qvl_list.addWidget(book)
         self.book_list.verticalScrollBar().setValue(0)
 
@@ -135,7 +135,7 @@ class NovelList(Ui_NovelExplore, QWidget):
         if self.book_page_number == 1:
             return
         self.book_page_number -= 1
-        self.lb_page.setText(f'第 {self.book_page_number} 页')
+        self.lb_page.setText(f"第 {self.book_page_number} 页")
         if self.prev_url.startswith("http"):
             final_url = self.prev_url
         else:
@@ -146,7 +146,7 @@ class NovelList(Ui_NovelExplore, QWidget):
 
     def on_next_clicked(self):
         self.book_page_number += 1
-        self.lb_page.setText(f'第 {self.book_page_number} 页')
+        self.lb_page.setText(f"第 {self.book_page_number} 页")
         if self.next_url.startswith("http"):
             final_url = self.next_url
         else:

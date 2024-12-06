@@ -6,7 +6,6 @@ import json
 @dataclass
 class BaseContent:
     content: Optional[str] = None
-    next_content_url: Optional[str] = None
 
 
 @dataclass

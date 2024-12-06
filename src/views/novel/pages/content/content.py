@@ -2,15 +2,17 @@ from typing import Optional
 from qfluentwidgets import FluentIcon
 from urllib.parse import urljoin
 
-from src.components.loading import LoadingOverlay
-from src.views.novel.pages.content.ui_content import Ui_NovelContent
-from PySide6.QtWidgets import QWidget, QListWidgetItem
-from PySide6.QtGui import QFont
 from PySide6.QtCore import Qt
-from src.common.signal_bus import signalBus, WebviewType
+from PySide6.QtGui import QFont
+from PySide6.QtWidgets import QWidget, QListWidgetItem
+
+from src.views.novel.data_class.explore import DataExplore
+from src.views.novel.pages.content.ui_content import Ui_NovelContent
 from src.views.novel.utils.u_content import get_toc_list, get_content
 from src.views.novel.data_class.source import RuleSource
 from src.views.novel.data_class.toc import DataToc
+from src.common.signal_bus import signalBus, WebviewType
+from src.components.loading import LoadingOverlay
 
 
 class NovelContent(Ui_NovelContent, QWidget):
@@ -44,7 +46,6 @@ class NovelContent(Ui_NovelContent, QWidget):
         signalBus.novel_rule_source.connect(self.get_novel_rule_source)
 
     def get_novel_rule_source(self, rule_source):
-        print("rule_source", rule_source)
         self.current_rule_source = rule_source
 
     def get_wv_html(self, wv_type: WebviewType, html):
@@ -68,8 +69,8 @@ class NovelContent(Ui_NovelContent, QWidget):
             data = get_content(html, rule_content)
             self.render_content(data.content)
 
-    def get_book_toc(self, book_url: str):
-        url = book_url
+    def get_book_toc(self, data: DataExplore):
+        url = data.toc_url
         origin = self.current_rule_source.book_source_url
         if not url.startswith("http"):
             url = urljoin(origin, url)
@@ -108,7 +109,6 @@ class NovelContent(Ui_NovelContent, QWidget):
         signalBus.wv_url.emit(WebviewType.CONTENT, final_url)
 
     def render_content(self, html):
-        print(html)
         font = QFont("霞鹜文楷", 16)
         self.textBrowser.setFont(font)
         self.textBrowser.setMarkdown(html)
