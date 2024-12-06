@@ -9,6 +9,7 @@ class WebviewType(Enum):
     CATEGORY = "category"
     EXPLORE = "explore"
     TOC = "toc"
+    CONTENT = "content"
 
 
 class SignalBus(QObject):

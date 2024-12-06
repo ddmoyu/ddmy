@@ -27,7 +27,9 @@ class NovelInterface(LayoutInterface):
         self.ui.setupUi(self)
         self.setObjectName("NovelInterface")
         self.page_cache = {}
-        self.initTopMenu()
+
+        self.pivot = None
+        self.init_top_menu()
 
         self.bookshelf = None
         self.list = None
@@ -56,33 +58,33 @@ class NovelInterface(LayoutInterface):
         elif page == "content":
             self.show_page(NovelPage.CONTENT)
 
-    def initTopMenu(self):
-        pivot = SegmentedWidget()
-        pivot.addItem(
+    def init_top_menu(self):
+        self.pivot = SegmentedWidget()
+        self.pivot.addItem(
             routeKey="bookshelf",
             text="书架",
             onClick=lambda: self.show_page(NovelPage.BOOKSHELF),
         )
-        pivot.addItem(
+        self.pivot.addItem(
             routeKey="list", text="浏览", onClick=lambda: self.show_page(NovelPage.LIST)
         )
-        pivot.addItem(
+        self.pivot.addItem(
             routeKey="search",
             text="搜索",
             onClick=lambda: self.show_page(NovelPage.SEARCH),
         )
-        pivot.addItem(
+        self.pivot.addItem(
             routeKey="manager",
             text="管理",
             onClick=lambda: self.show_page(NovelPage.MANAGER),
         )
-        pivot.addItem(
+        self.pivot.addItem(
             routeKey="content",
             text="阅读",
             onClick=lambda: self.show_page(NovelPage.CONTENT),
         )
-        pivot.setCurrentItem("search")
-        self.ui.topMenuLayout.addWidget(pivot)
+        self.pivot.setCurrentItem("search")
+        self.ui.topMenuLayout.addWidget(self.pivot)
 
     def show_page(self, page: NovelPage):
         if page.value not in self.page_cache:
@@ -90,25 +92,31 @@ class NovelInterface(LayoutInterface):
                 self.bookshelf = NovelBookshelf(self.ui.stack)
                 self.page_cache[page.value] = self.bookshelf
                 self.ui.bookshelf_layout.addWidget(self.bookshelf)
+                self.pivot.setCurrentItem("bookshelf")
             elif page == NovelPage.LIST:
                 self.list = NovelList(self.ui.stack)
                 self.page_cache[page.value] = self.list
                 self.ui.list_layout.addWidget(self.list)
+                self.pivot.setCurrentItem("list")
             elif page == NovelPage.SEARCH:
                 self.search = NovelSearch(self.ui.stack)
                 self.page_cache[page.value] = self.search
                 self.ui.search_layout.addWidget(self.search)
+                self.pivot.setCurrentItem("search")
             elif page == NovelPage.MANAGER:
                 self.manager = NovelManager(self.ui.stack)
                 self.page_cache[page.value] = self.manager
                 self.ui.manager_layout.addWidget(self.manager)
+                self.pivot.setCurrentItem("manager")
             elif page == NovelPage.DETAIL:
                 self.detail = NovelDetail(self.ui.stack)
                 self.page_cache[page.value] = self.detail
                 self.ui.detail_layout.addWidget(self.detail)
+                self.pivot.setCurrentItem("detail")
             elif page == NovelPage.CONTENT:
                 self.content = NovelContent(self.ui.stack)
                 self.page_cache[page.value] = self.content
                 self.ui.content_layout.addWidget(self.content)
+                self.pivot.setCurrentItem("content")
 
         self.ui.stack.setCurrentIndex(page.value)

@@ -1,12 +1,12 @@
-- [ ] 获取书源
-- [ ] 解析书源
-- [ ] 过滤书源
+- [x] 获取书源
+- [x] 解析书源
+- [x] 过滤书源
 - [ ] 书籍详情 ruleBookInfo
-- [ ] 书籍内容 ruleContent
-- [ ] 书籍浏览 ruleExplore 
+- [x] 书籍内容 ruleContent
+- [x] 书籍浏览 ruleExplore 
   - 将 pages/list 改成 explore
 - [ ] 书籍搜索 ruleSearch
-- [ ] 书籍章节 ruleToc
+- [x] 书籍章节 ruleToc
 - [ ] 下载书籍 download.py
 
 
@@ -17,8 +17,8 @@
 * 同时完全使用 webview 实现所有内容获取。
 * 规则仅以 python parsel 选择器为主。
 * 通过策略模式，支持多种解析器。
-- [ ] 支持 css 选择器
-- [ ] 支持 xpath 选择器
+- [x] 支持 css 选择器
+- [x] 支持 xpath 选择器
 - [ ] 支持 jsonp 选择器
 - [ ] 支持 js
 

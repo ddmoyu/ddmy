@@ -4,6 +4,7 @@ from typing import Optional, Dict, Any, Union
 from src.views.novel.data_class.category import RuleCategory
 from src.views.novel.data_class.explore import RuleExplore
 from src.views.novel.data_class.toc import RuleToc
+from src.views.novel.data_class.content import RuleContent
 
 
 @dataclass
@@ -17,11 +18,11 @@ class BaseSource:
     last_update_time: Optional[str] = None
 
     rule_book_info: Optional[str] = None
-    rule_content: Optional[str] = None
     rule_category: Optional[RuleCategory] = None
     rule_explore: Optional[RuleExplore] = None
     rule_search: Optional[str] = None
     rule_toc: Optional[RuleToc] = None
+    rule_content: Optional[RuleContent] = None
 
     search_url: Optional[str] = None
 
@@ -45,6 +46,8 @@ class RuleSource(BaseSource):
                 converted_data[snake_key] = RuleExplore.from_json(value)
             elif snake_key == "rule_toc" and isinstance(value, dict):
                 converted_data[snake_key] = RuleToc.from_json(value)
+            elif snake_key == "rule_content" and isinstance(value, dict):
+                converted_data[snake_key] = RuleContent.from_json(value)
             else:
                 converted_data[snake_key] = value
         return cls(**converted_data)
@@ -65,6 +68,8 @@ class DataSource(BaseSource):
                 data[camel_key] = asdict(value)
             elif key == "rule_toc" and isinstance(value, RuleToc):
                 data[camel_key] = asdict(value)
+            elif key == "rule_content" and isinstance(value, RuleContent):
+                data[camel_key] = asdict(value)
             else:
                 data[camel_key] = value
         wrapped_data = {"data_explore": data}
@@ -79,6 +84,8 @@ class DataSource(BaseSource):
             elif key == "rule_explore" and isinstance(value, RuleExplore):
                 data[key] = asdict(value)
             elif key == "rule_toc" and isinstance(value, RuleToc):
+                data[key] = asdict(value)
+            elif key == "rule_content" and isinstance(value, RuleContent):
                 data[key] = asdict(value)
             else:
                 data[key] = value
